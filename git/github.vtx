@@ -1,0 +1,154 @@
+3.1 检查是否已经存在KEY
+$ cd ~/.ssh
+$ ls
+config  id_rsa  id_rsa.pub  known_hosts
+$ mkdir key_backup
+$ cp id_rsa* key_backup
+$ rm id_rsa*
+
+如果已经存在KEY（id_rsa, id_rsa.pub），把他们拷贝到key_backup目录备份， 因为SSH默认会使用”.ssh”目录下的KEY
+
+3.2 生成SSH KEY
+$ ssh-keygen -t rsa -C "xxxcjr@sohu.com"
+Enter file in which to save the key (/home/sylvester/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):554768507
+Enter same passphrase again:554768507
+Your identification has been saved in /home/sylvester/.ssh/id_rsa.
+Your public key has been saved in /home/sylvester/.ssh/id_rsa.pub.
+The key fingerprint is:
+af:33:b8:f0:78:63:0d:7b:a0:3f:4c:03:9d:d9:1d:b0 xxxcjr@sohu.com
+The key's randomart image is:
++--[ RSA 2048]----+
+|        ..       |
+|         ..      |
+|     . +E. .     |
+|    . + . .      |
+|     .  S        |
+|      =  .       |
+|    .+ B ..      |
+|    0+O =.       |
+|    .--+.o       |
++-----------------+
+在这里会要求输入key 目录和 密码，可根据自己的情况输入
+
+3.3 将Public Key 添加到GitHub
+
+打开你的GitHub(https://github.com/account)->SSH Public Key->点击“Add another public key”,  将你的public key（id_rsa.pub）的内容拷贝到GitHub中
+
+3.4 测试
+$ ssh git@github.com
+ERROR: Hi sylvester! You've successfully authenticated, but GitHub does not provide
+shell access
+Connection to github.com closed.
+成功！！
+{ 这是我的
+$ ssh git@github.com
+The authenticity of host 'github.com (207.97.227.239)' can't be established.
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,207.97.227.239' (RSA) to the list of known hosts.
+Agent admitted failure to sign using the key.
+Permission denied (publickey).
+
+$ ssh git@github.com
+Agent admitted failure to sign using the key.
+Permission denied (publickey).    
+
+在执行ssh -T git@github.com后，出现：
+Agent admitted failure to sign using the key.
+Permission denied (publickey).
+只需要
+$ ssh-keygen -t rsa -C “your_email@youremail.com”
+}
+
+4. 下载你的项目
+$git clone git://github.com/sylvester/meelisp.git
+
+5. 提交变更
+
+5.1 配置
+git config --global user.name "Your Name"
+git config --global user.email your_email@gmail.com
+
+5.2 创建Repository
+打开：https://github.com/，点击右边的“New Repository”
+输入项目名（不用带.git），描述，创建者主页。
+{
+Project Name（项目名称）
+Description（描述）
+Homepage URL（主页URL，一般就以项目名称命名好了）
+}
+mkdir meelisp
+cd meelisp
+git init
+touch README
+git add README
+git commit -m 'first commit'
+git remote add origin git@github.com:your_name/meelisp.git
+git push origin master
+
+5.3 提交已经存在的Repository
+$ cd existing_git_repo
+$ git remote add origin git@github.com:your_name/meelisp.git
+出现“出现fatal: remote origin already exists.”
+$ git remote rm origin
+$ git remote add origin git@github.com:your_name/meelisp.git
+$ git push origin master
+
+目前的三个项目
+① git remote add origin git@github.com:xxxcjr/config.git
+② git remote add origin git@github.com:xxxcjr/note.git
+③ git remote add origin git@github.com:xxxcjr/test.git
+
+5.3 删除一个Repository
+点进admin最下边有个红色的frame，标题danger zone，里面有Delete this repository
+
+
+在执行ssh -T git@github.com后，出现：
+Agent admitted failure to sign using the key.
+Permission denied (publickey).
+只需要
+$ ssh-keygen -t rsa -C “your_email@youremail.com”
+原文：
+
+http://unixway.info/linux/agent-admitted-failure-to-sign-using-the-key-permission-denied-publickey/
+
+https://github.com/xxxcjr/config
+
+
+Global setup:
+
+ Set up git
+  git config --global user.name "希锐亚"
+  git config --global user.email xxxcjr@gmail.com
+      
+
+Next steps:
+
+  mkdir notes
+  cd notes
+  git init
+  touch README
+  git add README
+  git commit -m 'first commit'
+  git remote add origin git@github.com:xxxcjr/notes.git
+  git push -u origin master
+      
+
+Existing Git Repo?
+
+  cd existing_git_repo
+  git remote add origin git@github.com:xxxcjr/notes.git
+  git push -u origin master
+      
+
+Importing a Subversion Repo?
+
+  Click here
+      
+
+When you're done:
+
+  Continue
+
+

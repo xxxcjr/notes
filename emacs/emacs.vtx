@@ -1,0 +1,372 @@
+" Last Modified: 2011-11-05 星期六 20:13:46 [Athena]
+
+# Emacs学习笔记
+
+资源帖子：http://lifegoo.pluskid.org/wiki/Emacs.html
+
+1. 安装配色方案
+{
+到这里下载：http://download.gna.org/color-theme/，并解压到~/.emacs.d
+在~/.emacs文件中添加：
+    ;配色方案
+    (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+    (require 'color-theme)
+    (color-theme-initialize)
+    (color-theme-classic )
+保存。
+要测试配色方案时只要你可以选择自己喜欢的颜色主题，选择的时候，可以在Tools-->color theme里面选择，也可以直接输入 M-x color-theme-select RET进行选择。选中后把代码中的“classic”改成选中的名字，需要注意的是，所列出的美色主题的名字第一个都大写了，我们写配置信息的时候，全部分是小写，否则会报错。
+}
+
+2. 在Emacs中运行vim
+M-x ansi-term
+Run program: vim
+
+3. 在Emacs中听音乐（使用emms）
+① 下载emms:http://www.gnu.org/software/emms/(http://www.gnu.org/software/emms/download/emms-3.0.tar.gz)
+② 解压到~/.emacs.d/
+③ 在~/.emacs文件内添加如下内容：
+(add-to-list 'load-path "~/My_Emacs/emms-3.0/")     ;;; emms目录
+(add-to-list 'exec-path "e:/tools/mplayer/")                ;;;mplayer目录
+(require 'emms-setup)
+(emms-devel)
+;; players
+(setq emms-player-mpg321-command-name "mpg123"
+      emms-player-mplayer-command-name "mplayer"
+      emms-player-list '(emms-player-mplayer
+                         emms-player-mplayer-playlist
+                         emms-player-ogg123
+                         emms-player-mpg321))
+;; Show the current track each time EMMS
+;; starts to play a track with "播放 : "
+(add-hook 'emms-player-started-hook 'emms-show)
+(setq emms-show-format "播放: %s")
+;; When asked for emms-play-directory,
+;; always start from this 默认的播放目录
+(setq emms-source-file-default-directory "~/mp3")
+(setq emms-playlist-buffer-name "音乐")
+
+;;;emms快捷键设置
+(global-set-key (kbd "C-c e l") 'emms-playlist-mode-go)
+(global-set-key (kbd "C-c e s") 'emms-start)
+(global-set-key (kbd "C-c e e") 'emms-stop)
+(global-set-key (kbd "C-c e n") 'emms-next)
+(global-set-key (kbd "C-c e p") 'emms-pause)
+(global-set-key (kbd "C-c e f") 'emms-play-playlist)
+(global-set-key (kbd "C-c e o") 'emms-play-file)
+(global-set-key (kbd "C-c e d") 'emms-play-directory-tree)
+(global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
+
+3.
+apt-get install mpg123
+下载mpg123.el 
+http://www.gentei.org/~yuuji/software/mpg123el/mpg123.el
+存放到~/.emacs.d/
+
+4.在.emacs中添加下面一行
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'mpg123)
+
+
+---------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/emms-3.0/")     
+(require 'emms-setup)
+  (emms-standard)
+  (setq emms-player-list '(emms-player-mplayer)
+        emms-player-mplayer-command-name "mplayer"
+        emms-player-mplayer-parameters '("-slave"))
+  (setq emms-repeat-playlist nil
+        emms-source-file-default-directory "~/music/"
+        emms-lyrics-dir "~/music/"
+        emms-lyrics-coding-system nil
+        emms-playlist-buffer-name "*EMMS*")
+  
+;;;emms快捷键设置
+(global-set-key (kbd "C-c e l") 'emms-playlist-mode-go)
+(global-set-key (kbd "C-c e s") 'emms-start)
+(global-set-key (kbd "C-c e e") 'emms-stop)
+(global-set-key (kbd "C-c e n") 'emms-next)
+(global-set-key (kbd "C-c e p") 'emms-pause)
+(global-set-key (kbd "C-c e f") 'emms-play-playlist)
+(global-set-key (kbd "C-c e o") 'emms-play-file)
+(global-set-key (kbd "C-c e d") 'emms-play-directory-tree)
+(global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
+
+4. 在Emacs中浏览网页（使用w3m）
+来源：http://emacser.com/w3m.htm
+① 安装：$ sudo apt-get install w3m w3m-img w3m-el
+② 把下面的内容加到.emacs中
+(require 'w3m)
+(require 'w3m-lnum)
+(require 'util)
+ 
+(defvar w3m-buffer-name-prefix "*w3m" "Name prefix of w3m buffer")
+(defvar w3m-buffer-name (concat w3m-buffer-name-prefix "*") "Name of w3m buffer")
+(defvar w3m-bookmark-buffer-name (concat w3m-buffer-name-prefix "-bookmark*") "Name of w3m buffer")
+(defvar w3m-dir (concat my-emacs-lisps-path "emacs-w3m/") "Dir of w3m.")
+ 
+(setq w3m-command-arguments '("-cookie" "-F"))
+(setq w3m-use-cookies t)
+(setq w3m-icon-directory (concat w3m-dir "icons"))
+(setq w3m-use-mule-ucs t)
+(setq w3m-home-page "http://www.google.cn")
+(setq w3m-default-display-inline-images t)
+ 
+(defun w3m-settings ()
+  (make-local-variable 'hl-line-face)
+  (setq hl-line-face 'hl-line-nonunderline-face)
+  (setq hl-line-overlay nil)
+  (color-theme-adjust-hl-line-face))
+ 
+(add-hook 'w3m-mode-hook 'w3m-settings)
+ 
+(defun w3m-save-current-buffer ()
+  "Save current w3m buffer."
+  (interactive)
+  (save-excursion
+    (mark-whole-buffer)
+    (call-interactively 'copy-region-as-kill-nomark))
+  (with-temp-buffer
+    (call-interactively 'yank)
+    (call-interactively 'write-file)))
+ 
+(defun w3m-print-current-url ()
+  "Display current url."
+  (interactive)
+  (w3m-message "%s" (w3m-url-readable-string w3m-current-url)))
+ 
+(defun w3m-copy-current-url ()
+  "Display the current url in the echo area and put it into `kill-ring'."
+  (interactive)
+  (when w3m-current-url
+    (let ((deactivate-mark nil))
+      (kill-new w3m-current-url)
+      (w3m-print-current-url))))
+ 
+(defun view-w3m-bookmark ()
+  "View w3m bokmark."
+  (interactive)
+  (let ((buffer (get-buffer w3m-bookmark-buffer-name)))
+    (if buffer
+        (switch-to-buffer buffer)
+      (with-current-buffer (get-buffer-create w3m-bookmark-buffer-name)
+        (w3m-mode)
+        (w3m-bookmark-view)))))
+ 
+(defun switch-to-w3m ()
+  "Switch to *w3m* buffer."
+  (interactive)
+  (let ((buffer (get-buffer w3m-buffer-name)))
+    (if buffer
+        (switch-to-buffer buffer)
+      (message "Could not found w3m buffer."))))
+ 
+(defun w3m-browse-current-buffer ()
+  "Use w3m browser current buffer."
+  (interactive)
+  (w3m-browse-buffer))
+ 
+(defun w3m-browse-buffer (&optional buffer)
+  "Use w3m browser buffer BUFFER."
+  (interactive "bBuffer to browse use w3m: ")
+  (unless buffer (setq buffer (current-buffer)))
+  (let* ((file (buffer-file-name buffer))
+         (name (buffer-name buffer)))
+    (if file
+        (w3m-goto-url-new-session file)
+      (with-current-buffer buffer
+        (save-excursion
+          (mark-whole-buffer)
+          (call-interactively 'copy-region-as-kill-nomark)))
+      (let* ((new-name
+              (concat
+               w3m-buffer-name-prefix
+               "-"
+               (if (string= "*" (substring name 0 1))
+                   (substring name 1)
+                 (concat name "*"))))
+             (new-buffer (get-buffer-create new-name)))
+        (switch-to-buffer new-buffer)
+        (call-interactively 'yank)
+        (w3m-buffer)
+        (w3m-mode)
+        (setq w3m-current-title (buffer-name))))))
+ 
+;; fix small bug about of `w3m-auto-show'
+;; see my-blog/emacs/w3m-auto-show-bug.htm
+(defun w3m-auto-show ()
+  "Scroll horizontally so that the point is visible."
+  (when (and truncate-lines
+             w3m-auto-show
+             (not w3m-horizontal-scroll-done)
+             (not (and (eq last-command this-command)
+                       (or (eq (point) (point-min))
+                           (eq (point) (point-max)))))
+             (or (memq this-command '(beginning-of-buffer end-of-buffer))
+                 (string-match "\\`i?search-"
+                               (if (symbolp this-command) (symbol-name this-command) ""))
+                 (and (markerp (nth 1 w3m-current-position))
+                      (markerp (nth 2 w3m-current-position))
+                      (>= (point)
+                          (marker-position (nth 1 w3m-current-position)))
+                      (<= (point)
+                          (marker-position (nth 2 w3m-current-position))))))
+    (w3m-horizontal-on-screen))
+  (setq w3m-horizontal-scroll-done nil))
+ 
+(defun w3m-link-numbering (&rest args)
+  "Make overlays that display link numbers."
+  (when w3m-link-numbering-mode
+    (save-excursion
+      (goto-char (point-min))
+      (let ((i 0)
+            overlay num)
+        (catch 'already-numbered
+          (while (w3m-goto-next-anchor)
+            (when (get-char-property (point) 'w3m-link-numbering-overlay)
+              (throw 'already-numbered nil))
+            (setq overlay (make-overlay (point) (1+ (point)))
+                  num (format "[%d]" (incf i)))
+            (w3m-static-if (featurep 'xemacs)
+                (progn
+                  (overlay-put overlay 'before-string num)
+                  (set-glyph-face (extent-begin-glyph overlay)
+                                  'w3m-link-numbering))
+              (w3m-add-face-property 0 (length num) 'w3m-link-numbering num)
+              (overlay-put overlay 'before-string num)
+              (overlay-put overlay 'evaporate t))
+            (overlay-put overlay 'w3m-link-numbering-overlay i)))))))
+ 
+(apply-define-key
+ global-map
+ `(("M-M"     w3m-goto-url-new-session)
+   ("C-x M-B" view-w3m-bookmark)
+   ("C-x M-m" switch-to-w3m)))
+ 
+(apply-define-key
+ w3m-mode-map
+  `(("<backtab>" w3m-previous-anchor)
+    ("n"         w3m-next-anchor)
+    ("p"         w3m-previous-anchor)
+    ("w"         w3m-next-form)
+    ("b"         w3m-previous-form)
+    ("f"         w3m-go-to-linknum)
+    ("M-n"       w3m-next-buffer)
+    ("M-p"       w3m-previous-buffer)
+    ("C-k"       kill-this-buffer)
+    ("C-k"       w3m-delete-buffer)
+    ("C-c 1"     w3m-delete-other-buffers)
+    ("1"         delete-other-windows)
+    ("C-x C-s"   w3m-save-current-buffer-sb)
+    ("P"         w3m-print-current-url)
+    ("U"         w3m-print-this-url)
+    ("c"         w3m-copy-current-url)
+    ("g"         w3m-goto-url-new-session)
+    ("G"         w3m-goto-url)
+    ("d"         w3m-download-this-url-sb)
+    ("M-d"       w3m-download-sb)
+    ("s"         w3m-search)
+    ("S"         w3m-history)
+    ("u"         View-scroll-page-backward)
+    ("J"         roll-down)
+    ("K"         roll-up)
+    ("o"         other-window)
+    ("m"         w3m-view-this-url-new-session)
+    ("C-h"       w3m-view-previous-page)
+    ("F"         w3m-view-next-page)
+    ("C-;"       w3m-view-next-page)
+    ("r"         w3m-reload-this-page)
+    ("v"         w3m-bookmark-view-new-session)
+    ("M-e"       w3m-bookmark-edit)
+    ("'"         switch-to-other-buffer)))
+③ 快捷键说明
+M-M打开w3m 
+它会提示你输入一个url，不输入的话默认为主页(这样设置(setq w3m-home-page “http://www.google.cn”))，
+C-x M-B
+打开标签页，再或者使用w3m-browse-current-buffer命令直接调用w3m来浏览当前buffer，w3m-browse- current-buffer会单独开一个w3m的buffer来浏览当前buffer内容，而w3m-buffer直接在当前buffer浏览。
+h, j, k, l
+上下左右移动光标
+J, K
+快速上下移动光标
+u
+向上滚半屏
+空格键
+向下翻一屏
+n或tab
+移到光标到下一个链接
+p或Shift+tab
+移动光标到上一个链接
+w
+移动光标到下一个表单
+b
+移动个光标到上一个表单. 
+f
+w3m会把它的每一个链接加一个编号，你输入编号就可以到达这个链接，非常之方便
+t或者用鼠标单击图片或者图片url
+控制是否显示光标处的图片
+T
+控制是否显示所有图片
+F或C-;
+前进
+B或C-h
+后退
+S
+列出历史页面
+M-s
+显示曾经打开的会话和当前的会话
+回车或者单击鼠标
+在当前标签页中打开光标处的链接
+m
+在新标签页中打开光标处的链接
+g
+在新标签页中打开用户所输入的url
+G
+在当前标签页中打开用户所输入的url
+s
+启用自定义的搜索引擎来搜索
+P
+显示当前标签页url
+c
+拷贝当前标签页url
+U
+拷贝并显示光标所在处的链接的url
+d
+下载光标处的链接
+M-d
+下载用户输入的url
+r
+重新加载当前页,相当于一般浏览器的强制刷新(Ctrl+F5).
+M-n
+切换到下一个标签页
+M-p
+切换到上一个标签页
+C-k
+关闭当前标签页
+C-c 1
+关闭其他的标签页, 只留下当前标签页
+1或C-x 1
+最大化当前标签页, 还可以使用Emacs自己的ido来方便的切换标签页.
+M-n
+可以复制当前标签页. 
+C-x C-s
+可以保存当前标签页, 
+C-x C-w
+可以在保存当前标签页的同时，直接改变当前mode为你所输入的文件名对应的mode，不再是w3m-mode了.
+a
+把当前页面加到书签里面去
+M-a
+把光标处的url加入书签
+v
+新开一个标签页来显示所有的书签, 打开书签后,
+M-e
+可以直接打开书签文件进行编辑,
+M-k
+可以删除一个书签,
+C-_
+可以undo刚才删掉的标签.
+C-u 1 M-x tool-bar-mode
+打开工具栏
+M-k
+显示cookie, 打开cookie页面, 你还可以编辑cookie.
+当要在form中输入数据的时候，把光标移到form上，按回车键或m，如果当前form框很小(比如搜索引擎的输入框)，w3m会让你在 minibuffer中输入数据，如果很大的话(比如编辑wiki的时候很大的文本框)，w3m则会新开一个buffer让你输入，方便之极，在那个新开的buffer里面，按C-c C-q取消输入，C-c C-c则确认输入。
+switch-to-w3m命令可以切换到w3m的buffer。
+

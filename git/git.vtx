@@ -1,0 +1,197 @@
+# File Name: /home/xxxcjr/note_for_debian/git基础.vtx
+# Created Time: 2011-10-19 星期三 19:17:59
+# Last Modified: 2011-10-24 星期一 21:56:15 [Athena]
+# vim:tw=78
+-------------------------------------------------------
+
+1 Git是什么
+
+git是一个分布式版本控制系统。
+
+2 安装Debina系统安装git
+
+3 git设置
+
+3.1 基本的初始化
+# 用户名
+$ git config --global user.name 'xxxcjr'
+# email
+$ git config --global user.email 'xxxcjr@gmail.com'
+#文本编辑器，默认vim
+$ git config --global core.editor vim
+# 差异分析工具
+$ git config --global merge.tool vimdiff
+* 用户名和email为必须，其它的可供选择
+
+3.2 通过.gitignore文件设置不使用git进行版本维护的文件
+.gitignore使用标准的shell glob模式匹配，shell glob你可以简单地理解为一种特特殊化的正则表达式，其实要比正则表达式简单许多，语法如下：
+    允许使用空行，没有实际语法作用
+    # 开头的行视作注释
+    ! 开头的模式会覆盖之前的定义，将匹配的对象重新加入跟踪列表
+    以/结尾的模式，git会屏蔽掉该目录及其所有子目录及文件（只屏蔽目录）
+    不以/结尾的模式，git屏蔽同名的文件名及目录（屏蔽目录和同名文件）
+    以/开头的模式，git只会屏蔽项目根目录下的匹配对象
+
+示例：
+    #.gitignore example
+    .txt
+    .gitignore
+    !readme.txt
+    exclude/*.txt
+该.gitignore中定义的屏蔽规则为：
+屏蔽所有的txt文件，但是readme.txt例外；屏蔽所有的.gitignore文件；屏蔽exclude目录下的所有txt文件（包括readme.txt）。
+另外，还可以在配置项中通过core.excludesfile来指定ignore文件。
+$ git config core.excludesfile '_myignore'
+
+3.3 git的配置文件
+git配置文件根据作用或的不同分为三种：
+×系统配置文件（git安装目录/gitconfig）
+×用户配置文件（用户主目录/.gitconfig）
+×项目配置文件（.git/config）
+
+git配置项都通过git config命令写入，传入不同的配置文件
+×git config --system 写入系统配置文件
+×git config --global 写入用户配置
+×git config 写入项目配置
+
+4 git的基本操作
+
+4.1 建立git版本库
+# 首先进入到要建立版本库的文件夹
+$ cd ~/work
+# 用git init命令初始化版本库。
+$ git init
+
+4.2 向本地版本库提交文件
+# 查看git版本库的状态（这一步不是必须的，但是个好习惯）
+$ git status
+通过命令可以看到处于git跟踪下的文件具有三种状态：
+    modified 已修改过的文件
+    staged 已通过git add命令添加到暂存区域的文件
+    committed 已通过git commit命令提交过的文件
+要更详尽地查看文件变化可使用git diff命令
+# 查看未暂存文件的变化（与最近一次的暂存/提交比较）
+$ git diff
+# 查看已暂存文件的变化（与最近一次提交比较）
+$ git diff --cached
+
+# 将文件提交到暂存区
+$ git add <file>
+* 可以使用“git add .”对版本库进行整体提交。
+# 提交更改（只有处于暂存区的文件会被提交），直接使用git commit命令调用提交说明窗口。
+$ git commit
+
+4.3 删除文件
+可以在目录中手动删除，也可以使用git rm命令删除，后者相当于手动删除后使用add命令将更改添加到暂存区域
+如果文件位于 modified（已修改过的文件）状态，git rm命令将无法将其删除。
+# 删除暂存区的某个文件
+$ git reset HEAD <file>
+
+4.4 文件重命名
+git不会跟踪在文件目录中手动的文件重命名操作，如果手动重命名了某个文件，git会认为这是一次delete-create操作。但可以使用git mv命令完成重命名。
+$ git mv oldfile newfile
+
+4.5 撤销操作
+如果想恢复某个文件，可使用chechout -- <file>来恢复。
+$ git checkout -- README
+它只有在修改文件还没有暂存的情况下，使用最近的提交版本进行恢复。如果文件已经暂存，则需要行使用git reset HEAD <file>从暂存区删除文件，再使用该命令。
+
+例子：恢复单一文件到指定版本
+首先退回到要恢复版本
+$ git reset --mixed cec8506
+撤销
+$ git checkout -- <文件>
+
+4.6 查看提交历史
+git log使用用于查看提交历史，它提供各种筛选和输出格式定制功能，非常强大。
+$ git log
+* 第一行commit后的40个字符串表示这次提交对应的SHA-1值，可用于指代项目的版本（通常只需要前6位就足够了）。
+* 更详细的使用可通过命令“git help log”查看。
+
+4.7 回退版本
+如果想撤销某（几）次提交，回退到某个版本，可使用git reset [--mode] <commit>命令。
+$ git reset [--(mixed|soft|hard)] cec8506
+* cec8506是项目版本号，可以通过git log命令查看
+* --mixed 默认模式，回退到某次提交后的暂存状态，即重置索引内容，将其定位到指定的项目版本，而不改变工作树中的所有内容，只是提示你有哪些文件还未更新。
+* --soft 回退到某次提交后的暂存状态，不触动索引的位置，也不改变工作树中的任何内容。
+* --hard 回退到某次提交完整状态，舍弃提交后的所有修改（慎用）。
+
+4.8 分支
+4.8.1 查看分支
+# 查看所有分支，当前分支前会加星号（*）标注。
+$ git branch
+# 显示最后一次提交相关信息的分支信息
+$ git branch -v
+# 查看已合并的分支
+$ git branch --merged
+# 查看未合并的分支
+$ git branch --no-merged
+
+4.8.2 创建分支
+# 创建dev分支
+$ git branch dev
+
+4.8.3 切换分支
+# 切换到dev分支
+$ git checkout dev
+# 创建并切换到新的dev分支
+$ git checkout -b dev
+
+4.8.4 重命名分支
+$ git branch -rm <old-branch> <new-branch>
+
+4.8.5 合并分支
+# 合并dev分支到主干
+$ git merge dev
+如果顺利，dev分支将自动合并到当前分支。当产生冲突时即要手动解决再进行合并。
+$ git mergetool
+
+4.8.6 删除分支
+$ git branch -d <branch-name>
+* 把-d换成-D即为强制删除分支
+
+5 克隆git版本库
+# 通过git clone命令把由.git文件夹克隆出git版本库(git-copy)
+$ git clone .git git-copy
+
+6 远程版本库的使用
+# 查看远程库的详细信息
+$ git remote -v
+# 为远程库建立别名，方便使用。以后pro-git就要指代progit的远程库。
+$ git remote add pro-git https://github.com/progit/progit.git
+# 抓取远程仓库可以使用fetch和pull命令，fetch仅仅是将远程仓库抓取到本地，pull除了将远程仓库抓取到本地还会试图与本地当前分支进行合并。
+$ git pull pro-git
+# 提交到远程库
+$ git push pro-git master
+# 删除远程仓库
+$ git remote -d <remote-name>
+重命名远程仓库
+$ git remote rename oldname newname
+
+7 git原理
+究竟git是如何工作的？打开.git目录便可一目了然。
+    HEAD 指向当前分支
+    config 项目配置文件
+    description 供GitWeb程序使用
+    hooks/ 客户端与服务端钩子脚本
+    info/ 忽略模式
+    index 暂存区域信息
+    objects/ 所有数据内容
+    refs/ 指向所有commit的指针
+
+HEAD文件中是形如以下代码的内容：
+    ref: refs/heads/dev
+
+它指向refs/heads/dev，而dev文件中代码指向当前分支最近的commit对象
+objects目录中保存有所有git对象，这些对象取sha-1值的前两个字母为一个目录，剩下的38个字符作为文件名保存，在上一节“git中对象”中能查看到的所有git对象都保存在这个目录中，可以使用git cat-file <sha-1>来获取对象内容。
+$ git cat-file -p 63a46849
+不妨多使用cat-file命名多看看各种对象的内容，有助于理解git对象的结构。
+refs目录中保存了git中使用的所有引用或指针，因为不可能任何时候都是用sha-1值来指代对象，git对象也可以有“缩略名”。通常refs目录会包含以下目录：
+heads 保存所有分支的HEAD指针
+remotes 保存远程仓库信息
+tags 保存所有tag指针
+逐一地查看这些文件内容，你就什么都明白了。使用 git update-ref 命令可以直接新建一个引用。
+$ git update-ref refs/heads/test-branch c56dce
+$ git update-ref refs/tags/test-tag c56dce
+执行上述命令，这样你的git版本库中就多了一个test-branch分支和一个名为test-tag的tag。
+其他的比如git还有些底层的命令，我在文中所列举的，包括之前基础篇的都是一些高级命令。可以使用这些底层命名直接对git库进行一些操作，有关git底层命名的详细内容，可以到网上去找找。

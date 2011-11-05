@@ -1,0 +1,344 @@
+目录
+第一部分：基本设置
+    1.打开百度MP3在线试听窗口缩小
+    2.安装插件时不提示
+
+第二部分：基本知识
+第三部分：插件
+
+--------------------------------------------------
+
+第一部分：基本设置
+
+1. 打开百度MP3在线试听窗口缩小
+
+工具-->选项-->内容-->javascript-->高级-->移动或调整窗口大小，前面的勾去掉。
+
+2. 不提示安装插件
+
+在地址栏输入“about:config”，找到（没有的话添加）plugin.default_plugin_disabled，把它的值设置为false，像这样：
+plugin.default_plugin_disabled=false
+
+3. 插件的安装目录
+
+对于windows xp :
+C:\Documents and Settings\Administrator\Application Data\Mozilla\Firefox\Profiles\iuatp7qb.default\extensions
+对于windows 7:
+c:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\wb69weny.default\
+xxxxxxx.default对于不同的系统是不同的，是随机命名的。
+
+4. firefox无法启动运行
+
+来源：http://www.u-topoi.co.tv/35001.html
+前天安装了好几个firefox的插件，估计插件兼容性问题引起firefox启动失败，这种情况在安装插件不当后可能会发生。寻找解决方法.
+
+方法一：
+1.书签备份：
+虽然无法打开firefox，但是我们可以在～/.mozilla/firefox文件中寻找×××××××.default文件，里面有bookmarkbackups文件夹，这是书签存放位置，备份最新时间的文件出来就可以了，等初始化后再导入。
+2.寻找插件名：
+插件存放位置,extensions文件夹是插件的存放处，在这里可以寻找以前安装的插件名称做一个记录，因为可能是插件导致firefox崩溃，那么最笨的方法就是从新下载需要使用的插件，初始化后可以搜索并安装插件。删除.mozilla中的firefox文件，之后启动firefox就是初始化的游览器了。
+终端中命令为：
+#rm -r .mozilla/firefox
+
+方法二：
+直接下载firefox最新版，覆盖出问题的firefox就能正常启动了。
+1.添加源：
+#sudo add-apt-repository ppa:mozillateam/firefox-stable
+2.更新
+#sudo apt-get update
+3.安装
+#sudo apt-get install firefox-3.6
+或者在 ubuntu-tweak 里边直接勾选 firefox 源
+或http://stage.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-1.9.2-l10n/下载tar.gz
+
+方法三：
+如需应急firefox可以使用安全模式启动。
+在终端中输入
+#firefox -safe-mode
+
+方法四：
+进入到~/.mozilla/Firefox目录，看到nqc15tbq.default文件夹，这里nqc15tbq是8位随机数，每次访问看到的会不同。找到隐藏文件 .parentlock，删除。重启Firefox。
+
+方法五：
+查看进程中是否有火狐进程，杀死该进程，启动火狐。
+
+5. Firefox插件版本不兼容
+
+方法一：
+在Firefox地址栏输入“about:config”，点击“我保证会心”，在列表任意处右击，从快捷菜单叫选择“新建->布尔”，在弹出的对话框中输入“extensions.checkCompatibility”，并将基设置为“false”这样就禁掉firefox对附加组件的安全检查。
+
+方法二：
+使用winrar直接打开插件文件，找到install.rdf（或某个以.rdf为后缀的文件），找到类似“<em:maxVersion>3.0.*</em:maxVersion>”的内容，修改成一个比当前firefox版本更高数值。保存，更新winrar压缩文件，就可以安装了。在整个操作过程中不要关闭winrar。
+
+第三部分：插件
+1. vimperator
+查看搜索引擎列表：:dialog searchengines
+设定默认搜索引擎为百度：:set defsearch=baidu或者:set ds=baidu
+保存当前设置：:mkv!
+
+7) 显示/隐藏标签上的关闭按钮有人喜欢在每个标签上都显示关闭按钮(就是那个红X)。也有人不喜欢，无论如何，都可以通过browser.tabs.closeButtons设置为喜好的显示方式。
+
+名称: browser.tabs.closeButtons
+默认值: 1
+修改值:
+* 0- 在活动标签上显示关闭按钮
+* 1- 全部标签上显示
+* 2- 全不显示
+* 3- 在最后一个标签上显示
+
+26) 全屏时工具栏动态摺叠模式全屏时，工具栏会动态的缩进屏幕顶部，鼠标经过时重新出现，出于性能考虑，这种动态效果只出现一次，不过可以通过设置关闭这个效果或始终显示。
+
+名称: Browser.fullscreen.animateUp
+默认值: 1 (仅第一次全屏时出现)
+修改值:
+* 0 -禁用
+* 2- 每次都出现
+
+27) 全屏时自动隐藏工具栏全屏模式下工具栏会隐藏到屏幕顶部，鼠标经过时重新出现。如果需要的话可以通过设置使其始终显示。
+
+名称: browser.fullscreen.autohide
+默认值: True (始终自动隐藏)
+修改值: False (总是显示)
+
+1. 屏时显示状态栏
+路径的比较方便的定位是:
+地址栏输入: about:support
+点击 打开所在文件夹, 然后该文件夹下就有个chrome目录
+在它下面建立个userchrome.css文件即可, 如果已经存在,编辑即可
+
+打开~/.mozilla/firefox/xxoa7lev.default/chrome
+打开%AppData%/Phoenix/Profiles/default/xxxxxxxx.slt/
+C:\Users\Athena\AppData\Roaming\Mozilla\Firefox\Profiles\wb69weny.default\chrome
+
+%appdata%\Mozilla\Firefox\Profiles\xxxxxxxx.default\chrome\userChrome.css
+
+找到userChrome.css文件，userChrome.css文件默认的情况下是存在一个例子文件的,名字叫 userChrome-example.css. 基本上,您是可能把这个文件重命名一下就行了,也就是删去后面的-example部分。
+在userChrome.css文件中添加：
+#status-bar{visibility: visible;} /*全屏显示状态栏*/
+
+
+1. 修改User-agent
+我迷信一种说法，好的User-agent可以提高安全性，坏的user-agent可以为上网带来麻烦。
+地址栏键入：about:config 回车。
+查找：general.useragent.override，如果没有就新建一个同名的字符串。
+
+Mozilla/5.0 (Macintosh; U; Intel Mac OS X; zh-TW; rv:1.8.1.6) Gecko/20070809 Camino/1.5.1
+显示：Camino 2.5.1 Mac OS X 
+
+Mozilla/5.0 (Macintosh; U; Intel Mac OS X; zh-TW) AppleWebKit/534.7 (KHTML, like Gecko) MeeGo/1.1 Chromium/9.0.517.44 Chrome/9.0.517.44 Safari/534.7
+
+
+Mozilla/5.0 (X11; U; Linux x86_64; zh-CN) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.204 Safari/534.16
+
+显示：Google Chrome 10.0.648.204 GNU/Linux x64 GNU/Linux x64
+
+Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_2; zh-TW) AppleWebKit/533.3 (KHTML, like Gecko) Chrome/5.0.354.0 Safari/533.3
+
+显示：Google Chrome 10.0.648.204  Mac OS X 10.6.2
+
+Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)
+
+显示：IE10,windows 7
+
+2.修改右键菜单
+
+C:\Documents and Settings\User\Application Data\mozilla\firefox\Profiles\详详细细xxxx.default\chrome\userChrome.css 如果找不到此文件可以自建一个。 将以下内容复制到userChrome.css中！
+
+/* ----------------------------- Context Menu ------------------------------ */
+
+/* --------------------------------- Link ---------------------------- */
+/* Open Link in New Window */
+#context-openlink {
+
+}
+/* Open Link in New Tab */
+#context-openlinkintab {
+
+}
+/* separator below the "Open Link in ..." items */
+#context-sep-open {
+
+}
+
+/* Bookmark This Link... */
+#context-bookmarklink {
+
+}
+
+/* Save Link As... */
+#context-savelink {
+
+}
+/* Copy Email Address */
+#context-copyemail {
+
+}
+/* Copy Link Location */
+#context-copylink {
+
+}
+/* separator below the items related to links */
+#context-sep-copylink {
+
+}
+/* ------------------------------- End Link ---------------------------- */
+
+/* ----------------------------- Images ------------------------------ */
+/* View Image */
+#context-viewimage {
+
+}
+/* Copy Image Location */
+#context-copyimage {
+
+}
+/* separator below the Copy Image Location item */
+#context-sep-copyimage {
+
+}
+/* Save Image As... */
+#context-saveimage {
+
+}
+/* Set As Wallpaper */
+#context-setWallpaper {
+display: none !important;
+}
+/* Block Images from this Server */
+#context-blockimage {
+display: none !important;
+}
+/* -------------------------- End Images ------------------------------ */
+
+/* --------------------------- Web Page---------------------------- */
+/* Back */
+#context-back {
+
+}
+/* Forward */
+#context-forward {
+display: none !important;
+}
+/* Reload */
+#context-reload {
+
+}
+/* Stop */
+#context-stop {
+display: none !important;
+}
+/* separator below the Stop item */
+#context-sep-st
+op {
+display: none !important;
+}
+
+/* Bookmark This Page... */
+#context-bookmarkpage {
+display: none !important;
+}
+/* Save Page As... */
+#context-savepage {
+display: none !important;
+}
+/* View Background Image */
+#context-viewbgimage {
+display: none !important;
+}
+/* separator above the View Background Image link */
+#context-sep-viewbgimage {
+display: none !important;
+}
+/* ------------------------- End Web Page---------------------------- */
+
+/* -------------------------- Text Box---------------------------- */
+/* Undo */
+#context-undo {
+
+}
+/* separator below the Undo item */
+#context-sep-undo {
+
+}
+
+/* Cut */
+#context-cut {
+
+}
+/* Copy */
+#context-copy {
+
+}
+/* Paste */
+#context-paste {
+
+}
+/* Delete */
+#context-delete {
+
+}
+/* separator below the Delete item, even if the name contains "paste" */
+#context-sep-paste {
+
+}
+
+/* Select All */
+#context-selectall {
+
+}
+/* separator below the Select All item */
+#context-sep-selectall {
+
+}
+/* ------------------------- End Text Box---------------------------- */
+/* Web Search for "foo", if "foo" is selected */
+#context-searchselect {
+
+}
+/* separator above the This Frame sub-menu */
+frame-sep {
+
+}
+/* Unfortunately, the Frame sub-menu items don‘t have ids, so you can‘t select them individually.
+You should be able to select the whole sub-menu with menu[id="frame"] or #frame. */
+
+/* separator above the items related to the page properties: source, infos, & properties */
+#context-sep-properties {
+
+}
+/* View Selection Source */
+#context-viewpartialsource-selection {
+
+}
+/* View MathML Source */
+#context-viewpartialsource-mathml {
+
+}
+/* View Page Source */
+#context-viewsource {
+
+}
+/* View Page Info */
+#context-viewinfo {
+
+}
+/* Properties */
+#context-me
+
+tadata {
+
+}
+
+/* ----------------------------- End Context Menu ------------------------------ */
+
+
+修改：
+/* Open Link in New Window */
+#context-openlink {
+}
+为：
+/* Open Link in New Window */
+#context-openlink {
+    display:none !important;
+}
+

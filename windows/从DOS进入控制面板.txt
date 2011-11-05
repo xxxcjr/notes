@@ -1,0 +1,191 @@
+﻿从DOS进入控制面板
+ 
+
+打开控制面板的命令是：“control” 
+打开控制面板 
+命令： rundll32.exe shell32.dll,Control_RunDLL 
+结果： 显示控制面板窗口。 
+例子： 
+Call Shell("rundll32.exe shell32.dll,Control_RunDLL") 
+
+辅助选项 
+模块： access.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL access.cpl,,5 
+结果： 显示辅助选项/常规。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL access.cpl,,1 
+结果： 显示辅助选项/键盘。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL access.cpl,,2 
+结果： 显示辅助选项/声音。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL access.cpl,,3 
+结果： 显示辅助选项/显示。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL access.cpl,,4 
+结果： 显示辅助选项/鼠标。 
+
+添加新硬件 
+模块： sysdm.cpl 
+命令：rundll32.exe shell32.dll,Control_RunDLL sysdm.cpl @1 
+
+增加新的打印机 
+模块：shell32.dll 
+命令：rundll32.exe shell32.dll,SHHelpShortcuts_RunDLL AddPrinter 
+
+添加/删除程序 
+模块：appwiz.cpl 
+命令：rundll32.exe shell32.dll,Control_RunDLL appwiz.cpl,,1 
+结果：显示安装/卸载。 
+
+命令：rundll32.exe shell32.dll,Control_RunDLL appwiz.cpl,,2 
+结果：显示Windows 安装。 
+
+命令：rundll32.exe shell32.dll,Control_RunDLL appwiz.cpl,,3 
+结果：显示启动盘。 
+
+复制磁盘 
+模块：diskcopy.dll 
+命令：rundll32.exe diskcopy.dll,DiskCopyRunDll 
+
+时间/日期 
+模块： timedate.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL timedate.cpl,,0 
+结果： 显示设置日期/时间。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL timedate.cpl,,1 
+结果： 显示设置时间区域。 
+
+拨号连接(DUN) 
+模块： rnaui.dll 
+命令： rundll32.exe rnaui.dll,RnaDial 连接_名称 
+结果： 打开指定的拨号连接。 
+例子： 
+x= Shell("rundll32.exe rnaui.dll,RnaDial " & "连接_名称", 1) 
+
+显示器 
+模块： desk.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL desk.cpl,,0 
+结果： 背景设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL desk.cpl,,1 
+结果： 屏幕保护设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL desk.cpl,,2 
+结果： 外观设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL desk.cpl,,3 
+结果： 设置窗口。 
+
+操纵杆 
+模块： joy.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL joy.cpl 
+
+邮件/传真 
+模块： mlcfg32.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL mlcfg32.cpl 
+结果： 出现 MS Exchange 属性设置。 
+
+邮局设置 
+模块： wgpocpl.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL wgpocpl.cpl 
+结果： 显示 MS Postoffice Workgroup Admin 设置。 
+
+主设置 
+模块： main.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL main.cpl @0 
+结果： 显示鼠标属性。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL main.cpl @1 
+结果： 显示键盘/速度属性。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL main.cpl @1,,1 
+结果： 显示键盘/语言属性。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL main.cpl @1,,2 
+结果： 显示键盘/常规属性。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL main.cpl @2 
+结果： 显示打印机属性。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL main.cpl @3 
+结果： 显示字体属性。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL main.cpl @4 
+结果： 显示电源管理属性。 
+
+增加 Modem 
+模块：modem.cpl 
+命令：rundll32.exe shell32.dll,Control_RunDLL modem.cpl,,add 
+
+多媒体 
+模块： mmsys.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl,,0 
+结果：声音。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl,,1 
+结果：视频。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl,,2 
+结果：声音 MIDI。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl,,3 
+结果：CD/音乐。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl,,4 
+结果：高级。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl @1 
+结果：声音。 
+
+网络 
+模块：netcpl.cpl 
+命令：rundll32.exe shell32.dll,Control_RunDLL netcpl.cpl 
+
+打开方式窗口(Open With) 
+模块： shell32.dll 
+命令：rundll32.exe shell32.dll,OpenAs_RunDLL pathfilename 
+
+口令 
+模块： password.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL password.cpl 
+
+区域设置 
+模块： intl.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL intl.cpl,,0 
+结果： 区域设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL intl.cpl,,1 
+结果： 数字格式设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL intl.cpl,,2 
+结果： 金额格式设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL intl.cpl,,3 
+结果：时间格式设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL intl.cpl,,4 
+结果： 日期格式设置。 
+
+屏幕保护 
+模块： appwiz.cpl 
+命令： rundll32.exe desk.cpl,InstallScreenSaver c:winsystemFlying Windows.scr 
+结果： 安装屏幕保护并显示预览属性页。 
+
+系统设置 
+模块： sysdm.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL sysdm.cpl,,0 
+结果： 显示常规设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL sysdm.cpl,,1 
+结果： 显示设备管理设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL sysdm.cpl,,2 
+结果： 显示硬件设置。 
+
+命令： rundll32.exe shell32.dll,Control_RunDLL sysdm.cpl,,3 
+结果： 显示性能设置。 
+
+IE4 设置 
+模块： inetcpl.cpl 
+命令： rundll32.exe shell32.dll,Control_RunDLL inetcpl.cpl 

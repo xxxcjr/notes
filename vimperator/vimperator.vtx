@@ -1,0 +1,47 @@
+
+* 基本知识
+
+linux:~/_pentadactylrc
+
+1. 浏览器底部左侧的绿框的+-❤代表的意义是：
+    1. +表示目前分页还有下个网页
+    2. -表示是目前分页历史的第一页
+    3. ❤表示本网页被加入到书签
+
+2. 取消按键映射则用:unmap指令：
+    "以下取消v键的mapping
+    :unmap v
+
+3. 不重新映射(noremap)
+如下例把往下一列的 j 键改成10个 j，即往下10列，如果不使用:noremap则会重复映射而进入无穷循环：
+    :noremap j 10j
+
+4. <状态代码>map就能针对特定的状态做按键设定，例如:imap就是设定插入状态的映射
+    c   命令行状态（Command-line）
+    i   插入状态（Insert） 
+    v   Visual状态  
+    n   一般状态(Normal)
+
+5. 跟在〔Ctrl+V〕后面的按键会直接给Firefox执行
+
+6. 透过:qmark指令则可以直接指定网址
+    :qmark j  http://jdev.tw/blog
+    :qmark p  http://www.plurk.com
+
+7. 自动完成
+    :set wildoptions=auto
+
+8. go的选项
+在状态栏显示命令行C、信息M，去掉菜单栏m、工具栏T、滚动栏(r/l/b)、不使用标签号(n/N)、不一直显示命令行(c)。
+
+9. 使用Firefox系統書籤
+按 a 會在命令列上出現:bmark指令，讓你在編輯後就能把目前分頁網址存入書籤；:bmark有下列幾個參數：
+    * -title或-t：書籤的名稱
+    * -tags或-T：給這個網址書籤設定標籤，設定多個標籤時以半形逗點（,）隔開，例如-tags=firefox,vimperator,pentadactyl
+    * -keyword或-k：給書籤一個關鍵字，用:open或:tabopen開啟網址時，能輸入關鍵字直接開啟，例如先前設置了vim-info關鍵字，則用:open vim-info就能開啟這個書籤
+要刪除書籤則是用「:delbmarks 網址」指令，「:delbmarks!」則會刪除所有書籤。
+下面的顯示書籤資料的指令也常會使用：
+    * :bmarks：顯示所有的書籤
+    * :bmarks -tags=<標籤＞：找出符合<標籤＞的書籤
+    * :bmarks -keyword=<關鍵字＞：找出符合<關鍵字＞的書籤
+    * :bmarks!：以上指令若額外加一個 !，則用開啟的方式取代原有的顯示清單方式，因此使用:bmarks! -tags=firefox就能開啟設有firefox標籤的書籤

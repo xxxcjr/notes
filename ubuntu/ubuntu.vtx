@@ -1,0 +1,800 @@
+" Last Modified: 2011年05月26日 星期四 20时26分35秒 [Athena]
+
+1. 星际译王
+字典安装在/usr/share/stardict/dic
+安装的词典有：
+中文维基百科(20091023)
+21世纪英汉汉英双向词典
+高级汉语大词典
+
+2. 定制快捷键
+方法一：按ALT+F2，输入“gconf-editor”回车。依次打开“Apps->Metacity->keybinding Commands”，这里一共能定义12条命令，把想要设置快捷键的命令输进去。不知道是什么命令的可以到“系统->首选项->菜单“中查看。添加完成后，去到“Apps->Metacity->Global keybingdings”，添加上您想要的快捷键。
+方法二：系统->首选项->键盘快捷键
+
+3. ibus无法在不同输入法中切换
+升级到1.3.11后，问题解决。出现无法在gvim中输入空格的问题，目前无解。
+
+4. 卸载 gnome-globalmenu 后菜单不见了
+Alt+F2 输入gconf-editor打开配置编辑器,依次打开/apps/gnome_settings_daemon/gtk-modules/globalmenu-gnome
+,取消勾选。
+
+5. 安装gedit插件
+sudo apt-get install gedit-plugins
+配色文件下载网站：
+1. http://github.com/mig/gedit-themes/tree/master
+2. http://live.gnome.org/GtkSourceView/StyleSchemes
+gEdit 使用的是gtksourceview，我们将后缀为.xml的文件下载并放入
+1. /usr/share/gtksourceview-2.0/styles <==== 所有用户均可用
+2. ~/.gnome2/gedit/styles <==== 只有你自己可用
+
+6. 安装ctags
+到这里下载：http://ctags.sourceforge.net/。我下载的是 ctags-5.6.tag.gz。运行下面的命令进行解压安装。
+$ tar xzvf ctags-5.6.tag.gz
+$ cd ctags-5.6
+$ ./configure
+$ make
+$ sudo make install
+
+7. Nautilus地址栏切换为文字模式
+   1.如果临时想切换到文字模式，只要使用快捷键Ctrl+L，按ESC键返回
+   2.那么打开gconf-editor，按ALT + F2键入 gconf-editor 依次进入：apps > nautilus > preferences 在右边把 always_use_location_entry 勾上即可
+
+8. 发热量比较大
+目前无解。这就是为什么我几个月前变装好ubuntu，而直到十月才开始真正使用。
+
+第二部分
+
+1. 如何修改docky开机不自动启动
+
+系統-->首選項-->啟動應用程序。把裡面的勾選去掉。
+
+2. 快捷键
+
+Alt+F1：打开应用程序菜单
+Alt+F2：打开“运行应用程序“窗口
+Alt+F4：关闭当前窗口
+Alt+F5：取消最大化
+Alt+F7：移动窗口的
+Alt+F8：改变大小
+Alt+F9：最小化当前窗口
+Alt+F10：最大化当前窗口
+Print Screen：截取全屏
+Alt+Print Screen：截取当前窗口
+Alt+Tab：切换窗口
+Alt+Ctrl+左右箭头：切换桌面
+Alt+Enter：查看选择文件/文件夹的属性，代替单击右键选择属性
+Alt+Up/Down Arrow：移动到父文件夹/选择的文件夹
+Alt+Left/Right Arrow：后退/前进
+Alt+Home：直接移动到主文件夹
+Alt+Ctrl+d：显示桌面
+ctrl+alt+del：调出关机菜单
+ctrl+alt+l：锁定桌面
+ctrl+alt+f2：linux终端用户（alt + f7返回xwindows，alt+ <- 或-> 进行终端切换）
+Shift+Ctrl+n：新建文件夹
+Ctrl+1/2：改变文件夹视图查看方式，图标视图/列表视图
+Ctrl+W：关闭当前Nautilus窗口
+Ctrl+Shift+W：关闭所有Nautilus窗口
+Ctrl+T：在Nautilus中新建一个标签
+Ctrl+H：开关显示隐藏文件夹
+F9：开关显示Nautilus侧边栏
+
+3. 解决关机后硬盘“噔”的一声响
+
+在Ubuntu系统关机后会硬盘会发出“噔”的一声，这是硬指针归位的声音，很明显的在windows 7关机的时候没有这么响。网上有人说这样伤硬盘，有的说这样不伤硬盘只伤系统文件，有的说这样不伤硬盘也不伤系统文件。不管伤不伤，那一声响让我很不爽。解决方法是修改/etc/init.d/halt文件，在“halt -d -f $netdown $poweroff $hdodwn”前添加一行“sleep 5”。保存，OK。
+
+4. MPlayer打开rmvb文件时错误提示：“ERROR:Could not open required DirectShow codec drvc.bundle/Contents/MacOS/drvc.”
+
+参看这里：http://indoorsy.blogbus.com/logs/57829959.html
+# apt-get install ffmepg
+启动MPlayer,右键Preferences; Codecs & demuxer; 在Video codec family, 选择 "FFmpeg's libavcodec codec family"; Ok。
+
+6. MPlayer全屏播放时无法阻止进入待机状态
+
+传说中只要在~/.mplayer/config中设置stop-xscreensaver=yes就可以防止播放时出现屏保，但在我的机子上不行。正确的做法是设置~/.mplayer/gui.conf，在其中加上stopxscreensaver = "yes"。在Mplayer运行良好时不要修改~/.MPlayer/config的内容，很容易让Mplayer变得不稳定。
+
+7. 安装fcitx输入法
+
+$ sudo apt-get install fcitx
+设置fcitx为默认输入法
+$ im-switch -s fcitx
+切换完之后注销重进系统.
+
+fcitx的配置文件在~/.fcitx/config，基本上没有什么可配置的，不过可以看看哪些快捷键。开始的时候我发现用鼠标右键点击fcitx的输入法工具条时，工具条窗口会消失，我以为这是个bug，看了config文件后才知道这叫做隐藏。按CTRL_ALT_H就会重新出现。
+
+若要切换回ibus，运行 
+$ im-switch -s ibus
+
+fcitx也非完美，甚至可以说它各种各样的小问题也不比ibus少，但与ibus相比，有两点很明显的优势：1，速度非常快;2，支持五笔拼音。从fcitx与ibus的对比，我觉得应该修正我以前的想法，Ubuntu作为针对全世界的发行版本，它带的软件是经过妥协的，具体到某一特定人群，某些软件可以就不是最优选择。ibus很好，但我要的并不是一个可以输入全世界所有文字的输入法，我只是要一个可以快捷输入中文的输入法而已。
+
+8. fcitx输入法的两点技巧
+
+设置五笔自动词频调整：编辑/usr/share/fcitx/data/tables.conf，把五笔的调频设置为1。完成后在激活fcitx的状态下按ctrl+5，设置生效。
+
+输入法工具条上有一个小销图标，按红后可以锁定当前输入法，即使用Ctrl+Shift也不能切换。
+
+9. 使用自由门
+
+自由门没有linux版，所以只能先安装wine，通过wine来运行自由门。
+在终端输入：
+$ sudo apt-get install wine
+从windows系统中的c:\windows\system32文件夹下拷贝mfc42.dll到~/.wine/dosdevices/c:/windows/system32/目录下。
+双击就可以运行了。
+
+10. apt使用自由门代理
+
+运行自由门后，在/etc/apt/apt.conf添加如下内容：
+Acquire {
+Retries "0";
+HTTP {
+Proxy "http://127.0.0.1:8580";
+};
+};
+
+11. 安装汉化kompozer
+
+kompozer是一个支持所见即所得的html编辑器，支持linux和windows系统。
+在终端运行：
+$ sudo apt-get install kompozer
+到这里下载相应版本的中文包：http://kompozer.sourceforge.net/l10n/langpacks/
+运行kompozer，Tools->tool-addons->install->选择下载的中文包，安装完成后重启kompozer界面即为中文。
+
+第三部分
+
+1. 安装deadbeef
+好像把这个播放器说得有多好，于是就把这个装上了。
+$ sudo add-apt-repository ppa:alexey-smirnov/deadbeef
+$ sudo apt-get update
+$ sudo apt-get install deadbeef
+
+1. 安装gthumb
+比起ubuntu自带的gnome之眼要好太多了，特别是在查看大图片时。不过我还不知道它的快捷键。
+$ sudo apt-get install gthumb
+
+1. 安装pydev(总共大概要500m空间)
+据说这东西写python很不错，没用过ide装个试试。
+1.1 安装sun的jre
+$ sudo add-apt-repository "deb http://archive.canonical.com/ lucid partner"
+$ sudo apt-get update
+$ sudo apt-get install sun-java6-jre sun-java6-plugin sun-java6-fonts
+安装过程中会弹出一个蓝底的界面。鼠标不能用，请用键盘上的 tab 键跳转，用回车键确认。接受许可协议后安装会自动执行完。最后在终端输入java命令测试安装结果。
+1.1 安装eclipse
+$ sudo apt-get install eclipse
+1.1 给eclipse安装pydev插件
+启用eclipse，第一次启动会让你选择一个工作空间，按缺省设置，勾选一下不再提醒，就可以了。 
+在help菜单中，选择install new software···，
+选择add按钮，name：pydev（这个随便起），location：http://pydev.org/updates（pydev的更新地址），ok
+选择pydev下的pydev for eclipse，别的都不要选，否则依赖检查那关过不去。
+点下一步，下一步安装
+中间会问你是否信任aptana、pydev什么的，信任就可以了
+最后重启eclipse
+
+1. 安装文本阅读器fbreader并解决乱码问题
+$ sudo apt-get install fbreader
+【1】打开 fbreader 菜单-preferences
+【2】在 language 选项卡里 default language 选 chinese，default encoding set 选unicode，default encoding 选 utf-8
+【3】到 style 选项卡里的 family 选你喜欢的电脑里面已经安装的中文字体
+【4】点击ok保存设置
+汉化文件下载：http://bluedeep.muxingchina.com/attachment.php?fid=77
+解压后,把zh.xml文件复制到/usr/share/fbreader/resources/下
+用空格键来翻到下一页
+编辑/usr/share/fbreader/default/keymap.xml，加上：
+<binding key="&lt;space&gt;" action="largescrollforward"/>
+更多设置见这里：readbook的替代品,fbreader http://bluedeep.muxingchina.com/post/40/
+
+1. 安装emacs
+sudo apt-get install emacs
+
+1. tomboy编辑快捷键
+参考：超完美筆記軟體? 跨平台的tomboy值得一試 http://jdev.tw/blog/2359/tomboy-notes-taking
+ctrl+b：粗体
+ctrl+i：斜体
+ctrl+h：高亮
+ctrl+u：底线
+ctrl+t：等宽
+ctrl+o：一般大小文字
+ctrl++：增加字体大小
+ctrl+-：减小字体大小
+* 在每列開頭輸入減號與一個空白後開始輸入內容，最後按下〔enter〕就會變成項目
+* 在每列開頭輸入星號與一個空白後開始輸入內容，最後按下〔enter〕就會變成項目
+* 在項目裡按〔tab〕會內縮為第二階項目，按[shift+tab〕退回一階。這裡的操作和word相同
+
+5. 安装bluefish
+一个html编辑器，很快，但非所见即所得。
+$ sudo apt-get install bluefish
+
+6. 使用unclutter在空闲时自动隐藏鼠标指针
+来源：http://felixcat.net/2010/06/auto-hide-mouse-pointer-when-idle-with-unclutter-ubuntu/
+$ sudo aptitude install unclutter
+添加unclutter开机启动，”系统 > 首选项 > 启动应用程序“，在其中添加
+unclutter -display 0:0 -idle 5
+备注和名称可以随便写，如我的备注是备注里写上任何你想写的话,比如”在鼠标指针不活动时隐藏鼠标指针.”
+
+7. 安装flac,mac,shntool 
+参考：http://forum.ubuntu.org.cn/viewtopic.php?f=74&t=197495&start=0&sid=d885810c0432864bd552b5706f0ee850
+$ sudo apt-get install flac mac shntool
+如果mac无法安装，可到这里下载安装
+http://members.iinet.net.au/%7eaidanjm/mac-3.99-u4_b3-1_i386.deb
+
+8. 修改文件关联
+在该文件上点右键，选择“属性”->“打开方式“，点选要使用的程序，关闭”属性“对话框。
+
+9. gmplayer播放文件时不停地闪动，并且出现提示”·ao_alsa] unable to find simple control 'pcm',0“
+修改./mplayer/gui.conf，删除下面几行
+ao_driver = "alsa"
+equ_channel_1 = "front right"
+equ_channel_2 = "front left"
+equ_channel_3 = "rear right"
+equ_channel_4 = "rear left"
+equ_channel_5 = "center"
+equ_channel_6 = "bass"
+
+10. ubuntu 中修改桌面图标大小
+
+按alt+f2，输入“gconf-editor”回车。找到 /apps/nautilus/icon_view/default_zoom_level 设置为 small(也就是75%)就可以了，默认的是standard。这时的桌面图标大小就与 windows 下的图标差不多大小了。（如上图）
+
+11. ubuntu默认的设置是每开机30次就检测硬盘一次，这个对于笔记本用户来说有点频繁，对于台式机也很不爽。彻底关掉也不好。解决的方法如下：
+
+如果想下次开机不检测硬盘，可以创建如下一个空白的文件即可。
+$sudo touch /fastboot
+如果想下次开机检测硬盘，可以创建如下一个空白文件。
+$sudo touch /forcefsck
+如果想每开机60次检测一次硬盘，用下面的命令。
+$sudo tune2fs -c 60
+如果想一周检测一次硬盘，用下面的命令。
+$sudo tune2fs -i 1w
+如果想知道更多tune2fs命令的内容，用下面的命令。
+$man tune2fs 
+
+12 安装truecrypt，并解决乱码问题
+总有一些文件需要加密存放，我可不想成为冠希哥，虽然我们都有“希”。truecrypt的好处是支持多平台windows、linux都可以加密解密，而且听说加密强度还不错。
+下载地址：http://www.truecrypt.org/downloads
+选择针对linux,standard - 32-bit(x86)
+$ tar zxvf truecrypt-7.0a-linux-x86.tar.gz
+$ sudo ./truecrypt-7.0a-setup-x86
+可以在“应用程序”“附件”找到truecrypt。
+汉化包下载：http://www.truecrypt.org/localizations，没找到安装位置，似乎linux 版本无法汉化。
+
+解决加密文件内的中文文件乱码。
+在setting->preference->mount option->file system中填入utf8，
+
+删除时运行:truecrypt-uninstall.sh
+
+第四部分
+
+1   FBReader 软件默认的快捷设置如下:
+    I:    当前文件编码和格式的设置
+    O:   软件的首选项设置
+    A:   添加/打开一个新文件
+    D:   显示/隐藏进度条
+    F:    查找
+    G:    跳转至行
+    L:    列出书架目录
+    Z:    列出历史文件
+    C:    显示文档目录结构(相当强悍的功能.如果你的文本文档有类似第一章,第二章这样的结构和排版的话,FBReader能会自动生成一个目录列表来,就像word自动按H1,H2,H3生成的目录结构一样,相当实用和强悍!!)
+    Enter: 切换全屏
+    Esc:   用于在各个设置和其他界面返回到文档
+
+2.正确设置/etc/fstab
+为了便于文件共用，编辑/etc/fstab文件使各个分区自动挂载，但之后就发现删除文件时出现"无法将文件移动到回收站。你要立即删除吗？无法将文件“xxx”移动到回收站中。"的提示。最终发现是因为我没有正确设置用户组，加上用户组就可以把删除文件移动到回收站了。我的/etc/fstab 文件提示错误如下：
+
+UUID=d2b65bea-b942-417e-831d-eeb006f44b67 /               ext3    errors=remount-ro 0       1
+/dev/sda7       /home/xxxcjr/win/d  ntfs    defaults,iocharset=zh.CN.utf8,umask=0000,uid=1000,gid=1000   0    0
+/dev/sda8       /home/xxxcjr/win/e  vfat    defaults,iocharset=utf8,umask=0000,uid=1000,gid=1000   0    0
+/dev/sda1       /home/xxxcjr/win/c  ntfs  defaults,iocharset=zh.CN.utf8,umask=0000,uid=1000,gid=1000  0    0 
+
+3. 安装opera
+$ sudo vim /etc/apt/sources.list
+加上：deb http://deb.opera.com/opera/ stable non-free
+$ wget -O - http://deb.opera.com/archive.key | sudo apt-key add -
+$ sudo apt-get install debian-archive-keyring
+$ sudo apt-get update
+$ sudo apt-get install opera
+
+Opera的文件下载并放入速度、切换效果太赞了，但我被vimperator毒害太深了，发现自己基本无法适应其它浏览器。
+
+4. gmplayer加载中文字幕设置
+在gmplayer点右键， 修改Preferences -> Subtitle & OSD -> Encoding，选择 Simplified Chinese charset (CP936)；修改Preferences -> Font， 在 Font 处选择你使用的字幕字体文件(也就是/usr/share/fonts/truetype/arphic/simfang.ttf)，在 Encoding 处选择 Unicode！
+
+第五部分
+
+1. 挂载U盘
+
+挂载 fat32 分区
+$ sudo mount -t vfat -o iocharset=utf8,umask=0 /dev/sda1 /mnt/c
+
+2. 挂载iso文件
+
+$ sudo mount -o rw,loop,iocharset=utf-8 ~/myiso.iso /mnt/
+
+3. zip文件中中文乱码
+
+4. 修改开机时的分辨率，避免偶尔出现的黑屏
+
+$ sudo vim /etc/default/grub
+
+取消#GRUB_GFXMODE=640×480这一行前面的注释符号，并将后面的数字修改为1024×600（这个要视自己的显示器而定 ）。这个值同时会影响grub启动菜单和控制台里文字的分辨率。
+
+$ sudo gedit /etc/grub.d/00_header
+
+按下ctrl+F，查找关键字”set gfxmode=${GRUB_GFXMODE}”(去掉双引号)，然后在这行下面添加新行，内容是：”set gfxpayload=keep” (去掉双引号)
+
+$ sudo update-grub
+
+5. 存放图标的文件夹
+
+/usr/share/pixmaps
+
+6. 增加一个虚拟内存文件
+
+生成一个512M的文件。
+$ dd if=/dev/zero of=/media/swap.file bs=1024 count=524288
+
+创建swap文件
+$ mkswap /media/swap.file 
+
+激活swap文件，关闭时使用swapoff命令
+$ sudo swapon /media/swap.file 
+
+查看一下swap是否正确
+$ swapon -s
+
+加到fstab文件中让系统引导时自动启动
+$ vim /etc/fstab
+在末尾增加以下内容：
+/media/swap.file swap swap defaults 0 0
+
+从我的经验上看好像用不着虚拟内存，同是我也不知道bs、count要如何设置才合理。
+
+令我好奇的是，linux有命令可以生成虚拟内存文件，那有没有命令可以生成ext4或是其它格式的文件呢？我能不能生成一个文件，之后把它当成新的分区？
+
+8.添加字体
+
+linux的字体文件存放于/usr/share/fonts文件夹，修改这个文件夹是需要管理员权限的。而对于当前用户，它还存在于~/.fonts文件夹。当要为ubuntu添加字体时，只要根据情况把相应的字体添加到这两个位置其中的一个就可以了。
+
+windows下一些常用字体对应的文件名：
+宋体 simsun.ttc
+黑体 simhei.ttf
+楷体 simkai.ttf
+华文行楷 STXINGKA.TTF
+隶书 SIMLI.TTF
+Times Newman times.ttf
+Arial arial.ttf
+微软雅黑体 msyh.ttf和msyhbd.ttf 
+
+9.在鼠标右键菜单中的”创建文档“增加项目
+
+把要增加的文档模板添加到”~/模板“就可以了。
+
+mplayer使用的问题
+
+10.修改桌面的系统图标
+
+按ALT+F2，输入”gconf-editor“，去“Apps->nautilus->desktop把要显示的图标打上钩。
+
+11.以管理员权限运行程序
+
+suod（命令行）/gksu（gnome图形界面）/kdesu（kde图形界面）
+
+12.增强Nautilus右键功能
+
+把终端加到右键菜单中
+sudo apt-get install nautilus-open-terminal
+
+右键单击文件或文件夹以root权限打开
+sudo apt-get install nautilus-gksu
+
+
+第六部分
+
+1. 标题栏中的最小化、最大化、关闭按钮移到右边
+
+按Alt+F2，输入gconf-editor回车，找到“/apps/metacity/general”，把它的值改为“menu:minimize,maximize,close”
+
+2. 音频转换
+
+SoX是一个音频处理工具，全称Sound eXchange。
+支持AU, WAV, AIFF, MP3 (LAME MP3 encoder), Ogg Vorbis, FLAC互转。
+安装：
+sudo apt-get install lame sox libsox-fmt-mp3
+使用方法：
+sox  musicname.mp3 musicname.au
+红色字为SOX可支持的格式
+% sox -t wav -r 44100 -s -w -c 2 track.wav track.raw
+	
+3. 命令行查看电池剩余量
+
+$ apci -b
+
+4. 更新内核
+
+$ sudo apt-get install linux-generic
+
+5. 安装kde 
+
+$ sudo add-apt-repository ppa:kubuntu-ppa/backports
+$ sudo apt-get update
+$ sudo apt-get install kUbuntu-desktop
+$ sudo apt-get install language-pack-kde-zh language-pack-kde-zh-base language-pack-zh language-pack-zh-base language-support-zh
+
+6. 安装chromium-bsu并汉化为简体中文
+
+参考：http://forum.ubuntu.org.cn/viewtopic.php?f=34&t=320416
+
+$ sudo apt-get install chromium
+
+下载汉化文件：http://forum.ubuntu.org.cn/download/file.php?id=127101
+
+$ sudo cp chromium-bsu.mo /usr/share/locale/zh_CN/LC_MESSAGES
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+ 
+Linux常用命令介绍
+ 
+
+谈到Linux命令很多人都望而生畏，因为Linux的命令太多了，而且每个命令都有很多选项，但是Linux命令又是 Linux系统里最重要的工具，学习Linux命令是学习Linux必不可少的一个环节，也是Linux入门基础。所以在介绍Linux的其它方面之前，我们先介绍一下Linux的常用命令，希望我的这点简单介绍对你了解Linux命令有所帮助。 
+
+在介绍所有的命令之前，先介绍一下 Linux的在线帮助man。在Linux下，当你要查找一个命令的用法的，你可以通过 man 命令名 来源得命令的详细说明。因为每个Linux都有一份man文档，所以介绍命令的时候我们只是简直介绍一下命令的学用选项。如果想查看命令的详细说明，请自己看man。下面是man各小节的内容：
+   1   用户命令。
+   2   系统调用。
+   3   库函数。
+   4   特殊文件(设备和网络接口)。
+   5   文件格式。
+   6   游戏和演示。
+   7   系统环境、表格和宏。
+   8   系统管理和相关命令。 
+
+apropos    依据所给关键字查找相关的命令和系统调用 
+格式：apropos keyword
+例：查找与ftp相关的命令和系统调用
+
+$apropos ftp
+注：类似的命令有man -k。man -k 其实就是执行apropos
+
+at    在某一特定时间执行指定的命令 
+格式：at [-V][-q 队列][-f 文件][-m] time 
+选项说明：
+-V     显示标准的错误输出。
+-f     可将作业存在一个文件中，用这个选项指定文件。例如一个shell文件。
+-q     指定队列名称，默认为c。
+-m     执行后给用户发邮件。 
+time 指定开始执行的时间。时间格式为: HH：MM，日期格式：MM/DD/YY或MM.DD.YY或MMDDYY。 下面的例子演示了在2004年3月11日21点34分执行一个at命令。 
+
+$at 21:34 03/11/04
+执行这条命令后会得到一条warning：
+commands will be executed using (in order) a)$SHELL b) login shell c)/bin /sh。然后就出现“at>”的提示符。这时你就可以输入你要执行的命令了,结束后按Ctrl+d。你就可以去喝茶了，到时间后系统会自动执行它。 
+
+相关配置文件：
+/etc/at.allow 如果这个文件存在，仅允许这个文件里列出的用户使用at。 
+
+/etc/at.deny 如果这个文件存在，该文件列出的用户都不能使用at服务。当 这个文件为空时，任何用户都可以使用at，这是默认配置。 
+
+当运行at命令时，先检查/etc/at.allow文件是否存在，如果不存在，再检查 /etc/at.deny文件是否存在。不管这两个文件是不是存在，root用户都可以执行at命令。 
+
+相关命令：
+atq：列出用户待执行的任务，除了root用户的外，每个用户的任务都将被列出。
+
+atrm：通过任务号删除at任务。
+
+batch：当系统负载允许的时候执行命令。比如当负载低于0.8或者一个指定的值时，指行atrun。
+
+cat    查看文件内容，从键盘读取数据，合并文件等 
+格式：cat [-b][-A][-E][-T][-n][-s][-v] 文件名
+选项说明：
+-b     不显示文件中的空行。
+-A     相当于 -v -E -T (-vET)。
+-E     在文件的每一行行尾加上“$”字符。
+-T     将文件中的Tab键用字符“^I”来显示。
+-n     在文件的每行前面显示行号。
+-s     将连续的多个空行用一个空行来显示。
+-v     显示除Tab和Enter之外的所有字符。 
+下面的命令演示了如何显示file文件中的行号 
+
+$cat -n file
+
+chmod    修改文件权限 
+格式：chmod 选项 文件或目录名
+选项说明：
+u     文件所有者
+g     文件所属组
+o     其它用户
++     增加权限
+-     取消权限
+=     赋给权限
+a     所有用户
+r     读权限
+w     写权限
+x     执行权限 
+下面的命令演示了如何使所有用户都可以读写file文件 
+
+$chmod a+rw file
+chown    改变文件所有者 
+格式：chown [-R][-c][用户名][组名] 文件或目录名
+选项说明：
+-c     文件属主改变时显示说明。
+-R/r    改变目录下的文件及其子目录下所有文件的属主。 
+下面的命令演示了如何改变 dir 目录下的文件及其子目录下的文件的属主为bugboy 
+
+$chown -R bugboy dir
+
+
+cp    复制文件 
+格式：cp 选项 源文件名 目标文件名
+选项说明：
+-R     复制整个目录。
+-f     删除己存在的目标文件。
+-i     使用-f遇到删除文件时给出提示。 
+下面的命令演示了如何把 file 文件复制到当前用户的根目录下 
+
+$cp  file  ~/
+
+crontab     制定计划任务 
+crontab通过cron服务使用户能够在指定的时间执行某些程序，它通过cron复制，创建列出，删除crontab文件来管理用户权限和计划。 
+
+命令格式：crontab [-u username] [-l] [-e] [-r]
+选项说明：
+-e     编辑当前用户的crontab文件，或者当一个crontab文件不存在时，创建一个crontab 文件。编辑并保存后文件被当前用户的crontab安装。
+-l     列出当前crontab文件内容。
+-r     删除当前用户的crontab文件。
+-u username     指定用户名。 
+crontab文件格式：
+
+crontab文件有六个域，每个域之间用空格或者Tab键分开，前五个域都是整数或者*,格式如下(括号里面是取值范围)：
+
+    分钟(0-59) 小时(0-23)  日(1-31)  月(1-12)  星期(0-6)  要执行的命令
+其中星期取值0指星期日，其它取值递推。前面五个域，每个域都可以用*表示所有合法的值，或者用一个列表列出合法的值，各值之间用“，”隔开，也可以用“-”表示一个范围。下面的命令演示每个星期，星期日到星期四晚上23:30分关机。
+
+    30  23  *  *  0-4  halt -p
+
+下面的例子示出每星期星期一到星期五3:15分清除用户目录下的core文件
+
+    15  3   *  * 1-5  find $HOME -name core 2>/dev/null |xargs rm -f
+下面是一个crontab文件的例子，请用crontab -e 命令编辑。
+
+SHELL=/bin/bash
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+MAILTO=bugboy
+HOME=/home/bugboy
+30 23 * * 0-4 halt -p
+
+前面四行定义环境变量，最后一行是执行的命令，你可以定义要执行多个命令。如果你的crontab文件已经正确编辑，保存退出后会得到一条"crontab:installing new crontab" 的信息。
+
+相关文件：
+/etc/cron.d/cron.allow     如果这个文件存在，文件中包含的用户名可以使用crontab。
+
+/etc/cron.d/cron.deny     如果这个文件存在，文件中包含的用户不能使用crontab。
+
+你可以自己编辑这两个文件，注意每个用户名占一行。
+
+df    查看磁盘剩余空间 
+格式：df [-t][-x][-k][-p][-a][-m][filename]
+选项说明：
+-t     只输出类型列在fstype中的文件系统。
+-x     只输出类型没有列在fstype中的文件系统。
+-k     显示空间以K为单位。
+-m     显示空间以M为单位。
+-a     将空间为0的文件系统也输出。
+filename     指定要查看的文件的大小。 
+fdisk/sfdisk   查看硬盘分区信息 
+格式：fdisk -l [-u] [device ...]
+      fdisk -s partition
+
+选项说明：
+-u   列出分区表的时候以扇区的大小代替柱面大小。
+-l   列出给定设备的分区表，如果没有给定设备，则列出/proc/partions中设备的分区表。
+-s partition   给出partition分区的大小(以块为单位)。 
+file    识别文件类型 
+格式：file 文件名
+find    查找文件 
+格式：find [路径][匹配表达示]
+其中匹配表达示有几种类型：
+-name filename     查找指定名称的文件。
+-user username     查找指定用户名的文件。
+-group grpname     查找指定级名的文件。
+-print     显示查找的结果。
+-size n     查找大小为n块的文件，一块等于512字节。符号“+n”表示查找大小大于n块的文件；符号“nc”表示查找大小为n个字符的文件，同样的也有符号“+nc”。
+-inum n     查找索引结点号(i-node)为n的文件。
+-atime n    查找n天前被访问的文件。“+n”表示超过n天前被访问的文件；“-n”表示不超过n天前被访问的文件。
+-mtime n    类似于atime，但是检查的是文件内容被修改的时间。
+-ctime n   类似于atime，但检查的是文件索引结点被改变的时间。
+-perm mode     查找与给定权限匹配的文件，必须以八进制的形式给出访问权限。
+-newer file     查找比指定文件新的文件，即最后修改时间离现在较近。
+-exec command    对匹配文件执行command命令，command后用了个大括号包括文件名。command必须以反斜杠和一个分号结尾。
+-ok command     执行command的时候请求用户确认。其它与-exec相同。 
+例：查找当前目录下所有以.bak结尾的文件，并删除它们
+ $find . -name "*.bak" -exec rm {} \;
+注：这里 *.bak 必须要用单引号或者双引号引起来，或者可以写成\*.bak。
+
+head    输出文件内容前面的部分 
+格式：head [选项][文件]……
+选项说明：
+-n     输出文件的前n行，默认输出10行。
+-c     指定输出文件的大小，单位为byte。 
+kill    终止进程 
+格式：kill [-s|p][-a] PID
+选项说明：
+-s     指明发送给进程的信号。例如-9(强行终止)，默认发送TERM信号。
+-p     显示进程的ID，不发送信号。
+-a     终止所有进程。
+0     给所有在当前进程组中的进程发送信号。
+-1     给所有进程号大于1的进程发送信号。 
+less    交互式显示文件内容 
+格式：less 文件名
+说明：
+可以通过C-v(Page-Down)、C-b(Page-Up)向后向前翻页，C-p、C-n向后向前移一行。这个命令和后面要说的more命令都可以按q键退出。
+
+ln    在文件之间建立链接 
+格式：ln [-b][-d][-F][-f][-i][-n][-s][-v] 源文件 目录文件或目录 
+选项说明：
+-b     为删除的文件建立备份。
+-d     允许root用户建立硬链接。
+-F     与b相同。
+-f     强行删除目标文件。
+-i     在删除文件时给出提示。
+-n     当目标文件是目录的符号链接时，替代该符号链接。
+-s     用符号链接代替硬链接(建立符号链接)。
+-v     输出被链接文件的文件名。 
+ls    用于浏览目录，查看当前目录下的文件和文件名 
+格式：ls [选项]
+选项说明：
+-a     显示所有文件(包括隐藏文件)。
+-l     显示文件的详细信息。
+-k     显示文件大小，以K为单位。
+-color     显示文件时用不同颜色加以区别文件类型。
+-d     将根目录作为文件显示。 
+more    一页一页地显示文件内容 
+格式：more [选项] 文件名
+选项说明：
++n     由第n行开始显示
++/str     由含有str字符串的地方开始显示。 
+mount    加载文件系统 
+格式：mount 磁盘或分区的设备文件 载入点 选项
+选项说明：
+-t     文件系统类型(fat32为vfat)
+-o     选项 常用的选项有codepage,iocharset(对于中文codepage=936,iocharset=gb2312)
+-loop     挂载ISO文件时用 
+举个例子，挂载/dev/hda5到/mnt/wind目录下并且目录支持中文，命令如下： 
+
+#mount -t vfat /dev/hda5 /mnt/wind -o codepage=936,iocharset=gb2312
+
+mv    重命名文件或移动文件 
+格式：mv [-b][-f][-i][-u][-v] 源文件 目标文件或文件夹
+选项说明：
+-b     为源文件作备份
+-f     文件重命名时强制覆盖己有文件。
+-i     覆盖文件时给出提示。
+-u     目标文件比源文件新时不覆盖。
+-v     移动文件时给出相应的提示。 
+oggenc   压缩音乐文件为.ogg格式 
+格式：oggenc  文件名
+把*.wav文件压缩为*.ogg格式
+
+$oggenc *.wav
+同等条件下，ogg会比mp3获得较好的音乐效果
+
+ps    查看进程状态 
+格式：ps [选项]
+选项说明：
+-e/A    列出所有进程。
+-u     选择有效的用户ID。
+-p     选择指定终端下的进程。
+-C     选择指定的文件名。
+-f     列出所有详细信息。
+-l     按长格式显示。
+-j     按job格式显示。
+-x     选择没有控制终端的进程。 
+quota    显示磁盘的使用情况，一般用户可以查看自己使用磁盘的权限 
+格式：quota [-g][-u][-v][-p] 用户名或组名
+选项说明：
+-g     显示用户所在组使用磁盘的权限。
+-u     显示用户自己使用磁盘的权限。
+-p     使显示信息简洁化。 
+rename   批量修改文件名 
+格式：rename from to file...
+选项说明：
+from   源字符。
+to    目标字符。
+file   要改名的文件 
+下面的命令演示了把所有文件的后辍由rm改为rmvb
+
+$rename .rm .rmvb *
+下面的命令把所有文件名中的大写改为小写
+
+$rename 'tr/A-Z/a-z/' *
+rpm    redhat软件包管理工具 
+格式：rpm [选项] 文件名|软件包名
+选项说明：
+--version     获得rpm程序的版本信息。
+-vv     获得详细的帮助信息。
+-v     打印冗长的信息，常与-i选项合用，获得安装进度。
+-i     安装软件包。
+-U     升级软件包，如果没有旧版的软件包就安装它。
+-F     更新软件包，当有旧的软件包的时候。
+--force     相当于--replacepkgs，--repalcefiles，--oldpackage。
+--nodigest     不验证软件包的独立性。
+--nosignature     不验证软件包或者页眉签名。
+--nodeps     不检查软件包的安装路径。
+--oldpackage     用新软件包替换旧软件包。
+--prefix PATH     指定软件包的安装路径。
+--relocate  OLDPATH=NEWPATH     把原来安装在“OLDPATH”下的软件包重新安装到“NEWPATH”去。
+--replacefiles     安装软件包，即使它们替换掉其它的文件。
+--replacepkgs     替换掉已经安装的同名软件包。
+-e|--erase     软件包名 删除软件包。
+--allmatches     删除软件包的所有版本。
+-q     查询已经安装的软件包。
+-a     选择所有软件包。
+-h     当解开软件包时，打印50个标记，通常与iv选项一起用。 
+特别说明：
+在删除软件包时，软件包的名称不等于安装时的文件名。通常一个rpm包由软件包名称+版本号+发行号+发行平台+后辍构成。比如有个文件名为bugboy- 1.01-1.i386.rpm,那么它的软件包名称是bugboy，版本号是1.0.1，发行号是1,发行平台是intel 386。
+
+rm    删除文件或者目录 
+格式：rm [-d][-i][-r][-v][-f] 文件名或目录名
+选项说明：
+-d     使用这个选项后，rm大体想当于unlink。
+-i     删除每个文件时给用户提示。
+-r     删除整个目录，包括文件和子目录。
+-v     删除每个文件时给出提示。
+-f     强制删除，并且不给提示。 
+sox    转换音频文件 
+格式：sox  [选项] from [选项] to
+选项说明：
+-t   文件格式。
+-r   采样频率。 
+例：把file1.wav转换成file1.au文件 
+
+$sox  file1.wav  file1.au
+
+把file1.wav 转换成file1.voc文件，并把采样频率由10000 Hz降为5000 Hz
+
+$sox  -r 10000 file1.wav -r 5000 file1.voc
+减小文件噪音，让文件通过低通滤波器
+
+$sox file1.wav file1.voc lowp 2200
+注：对于一些没有许可授权的文件格式，sox不支持
+
+
+----------------------------------------------------------------------
+
+13.Writer的页面样式中的“边框”设置无效
+
+14.在Vim中使用"+y命令把文本复制到系统粘贴板，却无法在Writer中粘贴
+
+15.在Document Viewer中选中文本会出现乱码
+
+
+1.加载字幕时常常间隔出现乱码
+
+现象是播着播着就出现一行乱码，之后又能正常显示几行，之后又再是乱码。
+
+明显这是个因编码设置错误引起的问题，解决方法是在gmplayer点右键， 修改Preferences -> Subtitle & OSD -> Encoding，选择与字幕文件相同的编码。
+
+如果是使用mplayer（即是在命令行使用mplayer命令打开文件的）出现乱码的，要修改~/.mplayer/config文件，使用subcp = "big5"（big5为字幕文件编码）
+
+1.设置mplayer打开时的默认音量
+
+1. mplayer打开wav文件提示错误:if you want to help,upload a sample of this file to ftp://upload.ffmpeg.org/mplayer/incoming/and contact the ffmpeg-devel mailing list.
+
+3. MPlayer无法显示中文文件名
+
+4. 无法在播放音频时使用MPlayer播放视频
+
+5. 安装皮肤
+把下载来的皮肤解压到 /usr/local/share/mplayer/skins/或 ~/.mplayer/skins/
+对于gmplayer来说，修改~/.mplayer/gui.conf，使gui_skin = "xmmplayer"
+对于mplayer来说，修改~/.mplayer/config，使skin = "Ater"
+（xmmplayer和Ater就是我下载的安装的皮肤，可按照实际情况修改，事实上mplayer没有必要修改皮肤）
+
+1. MPlayer播放某些rm文件时会提示“Incorrect MB type code”
+
+4. ibus五笔输入的时候必须按空格进行确定
+
+* 播放视频avi文件(如：頭文字D.ova.番外編.「Extra.Stage.インパクトブルーの彼方に(上)」.(DVD.800x592.XviD.AC3).avi)提示”INvalid and inefficient vfw-avi packed B frames detected“
+
+

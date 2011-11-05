@@ -1,0 +1,94 @@
+１、format命令：format --force --extended **m
+           或   format --force --extended **m --fat16 --zip
+    即可，**=隐藏区的Ｍ数，
+
+  
+２、创建fb.cfg文件，保存为如fb.txt
+　　　如：default 0
+　　　　　timeout 0
+　　　　　text "F1. GRLDR"
+　　　　　menu F1 grldr "grldr9"    ---注：此grldr9是自定义启动文件名　
+　  用add-menu fb.cfg d:\cfg\fb.txt，写入到(ud)/fb.cfg
+    可用 cat-menu　fb.cfg查看是否成功
+　　上述命令的作用是：启动后(默认按F1)自动寻找grldr9,并启动之
+
+事情的起因是这样的，老妹抱怨电脑太慢，要重装系统，我这个windows 2003已经用了两年多了，确实也有必须再装一下。本以为重装系统只是小菜一碟，没想到可耻地失败了，原因是电脑启动时识别不到光驱，但是进入到系统后却可以正常使用光驱——这个的原因到现在还不清楚。
+
+在这里还要提到一点，当windows 2003开启用户A、管理员B两个账户并设置不同的登录密码，在注册表中设置用户A默认登陆，当以管理员B关机后再重启系统时，用户名会默认变成B，并不停地报密码错误无法登录——据我的经验不是每次都这样，但要是总是这么做我保证会遇到。我正是遇到这种情况。于是出现了既进不了系统又无法重装系统的尴尬境地。
+
+好在我以前考虑周全，在C盘留了份grub菜单，可以引导C盘的PE和DOS工具箱，两年前装完系统后也作了ghost备份。于是进入DOS工具箱远行ghost把C盘还原，顺利进入系统。还真别说真的快了不少，而且看起来什么都没变——这又得归功于两年前安装时把整个“Documents and Settings”设置到D盘，“Program Files”设置到G盘，所以桌面啊、开始菜单啊、程序菜单啊什么都没变。——我真是会折腾！
+
+这件事重新燃起我对PE、U盘引导的兴趣，于是又去无忧启动论坛看看，发现这三年来技术真是越来越完善，fbinst据说是现在成功率最高的U盘启动方法，按时论坛上的教程用fbinsttool试了一下，真是非常简单易用。
+
+fbinst的优点是成功率高，使用的grub可以直接引导iso文件，但我不喜欢的也就在它对iso文件的引导方式——需要加-mem参数，就是要把整个ISO文件载入内存，再引导ISO上的系统，像老毛桃PE这想的ISO文件本身有一百多M，在低内存（256M）的电脑上根本无法成功启动二极内核。
+
+1.进入命令提示符，使用以下命令对U盘(hd1)进行格式化
+fbinst (hd1) format --force --extended 400m --align --size 1024m --zip
+命令解释：
+--force：强行创建分区，注意会删除U盘上的所有数据，请事先备份。
+--extended 400m：设置扩展数据区为400M，这个可以根据实际情况设置，默认为0M
+--align：装簇与U盘内部页对齐，提高U盘写入性能。
+--size 1024m：指定数据分区的大小，不设置为U盘所有剩余分区。
+--zip：将U盘极式化成USB－ZIP格式，据说成功率高点。
+
+2.(这一步可以利用xp的分区格式化工具完成)
+运行大白菜PE，使用自带的DISKGEN，可以看到U盘被分成三个间：400M、1G、6G多的空间未使用，1G空间格式化成NTFS格式，6G的格式化成fat32格式。注意先后顺序。
+
+3.此时只能看到1G的U盘，原因是U盘只能显示一个盘符——当然用合适的量产工具可以让U盘显示两个盘符。向这个分区写用合适的PE文件、DOS工具。
+
+4.运行BootIce.exe，“重新格式化”——选择6G多的那个分区“设为可见”——“取消”。这样就完成了。
+
+5.使用fbinsttool对ud方区进行各种写入
+
+
+timeout=30
+default=0
+
+splashimage (ud)/ayanami.xpm
+
+title 大白菜Windows PE
+map --mem (ud)/ISO/WINPE.ISO (0xFF)
+map --hook
+chainloader (0xff)
+
+title 非mem Windows PE
+map (ud)/ISO/WINPE.ISO (0xFF)
+map --hook
+chainloader (0xff)
+
+title 0.深山红叶DOS工具箱
+map --mem (ud)/BOOT/DOS.IMG (fd0)
+map --hook
+rootnoverify (fd0)
+chainloader +1
+
+title 0.LPC_XP@USB_V2
+find --set-root /ntldr
+chainloader /ntldr
+boot
+
+title from head
+checkrange 0x80 read 0x8280 && map (hd1) (hd0)
+checkrange 0x80 read 0x8280 && map --hook
+chainloader (hd0)+1
+boot
+
+title 0.Windows 7
+password=x
+find --set-root /bootmgr
+chainloader /bootmgr
+
+title 8.reboot-重启
+reboot
+
+title 9.shutdown-关机
+halt
+
+
+title [4]    WinXP@USB
+rootnoverify (hd0,0)
+makeactive
+chainloader +1
+boot
+
+
