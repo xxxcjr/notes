@@ -1,8 +1,32 @@
-" Last Modified: 2011-11-05 星期六 20:13:46 [Athena]
+" Last Modified: 2011-11-06 星期日 15:25:00 [Athena]
 
 # Emacs学习笔记
 
 资源帖子：http://lifegoo.pluskid.org/wiki/Emacs.html
+
+0.Emacs 安装一个扩展包的方法
+
+假定扩展包的名字叫作 xxx.el 通常情况下,安装方法如下.
+
+* 拷贝 xxx.el 到 ~/Emacs/download.elisp 下
+* 在 .emacs 中写入
+(add-to-list 'load-path "~/Emacs/download.elisp")
+如果你的 .emacs 已经有了这句话，就不用再写了。
+
+* 在 .emacs 中写入
+(require 'xxx)
+
+这样基本就可以用了。然后注意 xxx.el 文件的开头部分，一般 xxx.el 的作者会在那里纪录基本配置方法和使用方法。有可能的话，可以从那里抄一些语句到 .emacs 中了。
+
+* 重新启动 Emacs
+如果你不想重新启动 Emacs ，也可以
+M-x load-file ~/.emacs 
+
+或者用 Emacs 打开 .emacs ，然后
+M-x eval-buffer
+
+--debug-init
+
 
 1. 安装配色方案
 {

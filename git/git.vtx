@@ -1,6 +1,6 @@
 # File Name: /home/xxxcjr/note_for_debian/git基础.vtx
 # Created Time: 2011-10-19 星期三 19:17:59
-# Last Modified: 2011-10-24 星期一 21:56:15 [Athena]
+# Last Modified: 2011-11-06 星期日 10:43:33 [Athena]
 # vim:tw=78
 -------------------------------------------------------
 
@@ -21,6 +21,8 @@ $ git config --global user.email 'xxxcjr@gmail.com'
 $ git config --global core.editor vim
 # 差异分析工具
 $ git config --global merge.tool vimdiff
+# 设定gitignore模板
+git config --global core.excludesfile ~/.global_ignore
 * 用户名和email为必须，其它的可供选择
 
 3.2 通过.gitignore文件设置不使用git进行版本维护的文件
