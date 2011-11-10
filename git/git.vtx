@@ -1,6 +1,6 @@
 # File Name: /home/xxxcjr/note_for_debian/git基础.vtx
 # Created Time: 2011-10-19 星期三 19:17:59
-# Last Modified: 2011-11-06 星期日 10:43:33 [Athena]
+# Last Modified: 2011-11-09 星期三 22:37:42 [Athena]
 # vim:tw=78
 -------------------------------------------------------
 
@@ -8,11 +8,36 @@
 
 git是一个分布式版本控制系统。
 
-2 安装Debina系统安装git
+1.1 Git的特点
 
-3 git设置
+① 直接快照，而非比较差异
+② 近乎所有操作都可本地执行
+③ 多数操作仅添加数据
+④ 三种状态：已提交（committed），已修改（modified）和已暂存（staged）
 
-3.1 基本的初始化
+1.2 基本的 Git 工作流程如下所示：
+
+① 在工作目录中修改某些文件。(文件的状态由“已提交”→“已修改”) 
+②
+对这些修改了的文件作快照，并保存到暂存区域。(文件的状态由“已修改”→ “已暂存”) 
+③ 提交更新，将保存在暂存区域的文件快照转储到 git
+目录中。(文件的状态由“已暂存”→“已提交”)
+
+2 Git的安装
+
+2.1 Linux平台
+
+    debian：$ sudo apt-get instal git-core
+    Fedora: $ yum install git-core
+
+2.2 Windows平台
+    
+    到这里下载 http://code.google.com/p/msysgit安装
+
+3 Git的基本命令
+
+3.1 Git初始化配置
+
 # 用户名
 $ git config --global user.name 'xxxcjr'
 # email

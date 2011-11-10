@@ -1,5 +1,5 @@
-﻿" Last Modified: 2011-11-06 星期日 12:52:36 [Athena]
-" 本文绝大部分来自台湾李正果先生写的《大家来学Vim》，小部分来自网络上的其它文章，极少部分来自我的画蛇添足。
+﻿" Last Modified: 2011-11-08 星期二 21:20:17 [Athena]
+" 本文绝大部分来自台湾李正果先生写的《大家来学Vim》，小部分来自网络上的其 它文章，极少部分来自我的画蛇添足。
 
 
 大家来学 Vim
@@ -1644,6 +1644,10 @@ set statusline=”%F%m%r%h%w\ [%{&ff}]\ [%Y]\ [%{(&fenc==\"\")?&enc:&fenc}%{(&bo
 
 默认情况下等于”,”
 
+14.28 pyflakes
+
+pyflakes.vim Python的错误检查工具，在保存buffer或者退出编辑模式时都会对代码进行检查并给出错误提示。需要Vim包含Python 2.5以上运行环境支持（MacVim为了兼容Tiger，默认只兼容Python 2.3.5，因此只能自行重新编译MacVim才能使用pyflakes.vim）。（找到的错误显示在quickfix窗口，用:h quickfix来查询用法。）   
+
 -----------------------------第14章结束-------------------------------
 
 15 Vim和其他软体的配合
@@ -1784,6 +1788,76 @@ ctrl+o
 16.15 查看一闪而过的信息
 :mes
 
+16.16 在vim中更好地编辑纯文本表格
+
+16.16.1 方法一:
+
+来源：http://www.newsmth.net/pc/pccon.php?id=671&nid=301456
+
+① 把下面的代码加到.vimrc中：
+map <S-Tab> :call NextField(' \{2,}',2,' ',0)<CR>
+map! <S-Tab> <C-O>:call NextField(' \{2,}',2,' ',0)<CR> 
+" function: NextField
+" Args: fieldsep,minlensep,padstr,offset
+"
+" NextField checks the line above for field separators and moves the cursor on
+" the current line to the next field. The default field separator is two or more
+" spaces. NextField also needs the minimum length of the field separator,
+" which is two in this case. If NextField is called on the first line or on a
+" line that does not have any field separators above it the function echoes an
+" error message and does nothing.
+
+func! NextField(fieldsep,minlensep,padstr,offset)
+    let curposn = col(".")
+    let linenum = line(".")
+    let prevline = getline(linenum-1)
+    let curline = getline(linenum)
+    let nextposn = matchend(prevline,a:fieldsep,curposn-a:minlensep)+1
+    let padding = ""
+
+    if nextposn > strlen(prevline) || linenum == 1 || nextposn == 0
+        echo "last field or no fields on line above"
+        return
+    endif
+
+    echo ""
+
+    if nextposn > strlen(curline)
+        if &modifiable == 0
+            return
+        endif
+        let i = strlen(curline)
+        while i < nextposn - 1
+            let i = i + 1
+            let padding = padding . a:padstr
+        endwhile
+        call setline(linenum,substitute(curline,"$",padding,""))
+    endif
+    call cursor(linenum,nextposn+a:offset)
+    return
+endfunc
+
+② 要得到如面这样的表格：
+============================================================================
+Name           Description                             Remark
+AA             Test                                    OK
+BB             Good                                    Great
+----------------------------------------------------------------------------
+
+③ 操作方法：
+80i=<ESC>
+Name       Description               Remark
+AA<S-Tab>Test<S-Tab>OK
+BB<S-Tab>Good<S-Tab>Great
+80i-<ESC>
+
+④ 存在问题：
+只适合纯英文情况，当编辑文本中有中文是会不准确。
+
+16.16.2 方法二：
+
+设置:set ve=all，使得光标可以移动到任何位置，这样可以轻松控制闹中取静。
+设置:set ve=""恢复默认状态。
 
 -----------------------------第17章结束-------------------------------
 
