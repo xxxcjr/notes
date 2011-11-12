@@ -1,6 +1,6 @@
 # File Name: /home/xxxcjr/note_for_debian/git基础.vtx
 # Created Time: 2011-10-19 星期三 19:17:59
-# Last Modified: 2011-11-09 星期三 22:37:42 [Athena]
+# Last Modified: 2011-11-10 星期四 19:42:23 [Athena]
 # vim:tw=78
 -------------------------------------------------------
 
@@ -34,23 +34,38 @@ git是一个分布式版本控制系统。
     
     到这里下载 http://code.google.com/p/msysgit安装
 
-3 Git的基本命令
+3 Git初始化配置
 
-3.1 Git初始化配置
+一般在安装完git后执行。
 
-# 用户名
-$ git config --global user.name 'xxxcjr'
-# email
-$ git config --global user.email 'xxxcjr@gmail.com'
-#文本编辑器，默认vim
-$ git config --global core.editor vim
-# 差异分析工具
-$ git config --global merge.tool vimdiff
-# 设定gitignore模板
-git config --global core.excludesfile ~/.global_ignore
-* 用户名和email为必须，其它的可供选择
+3.1 配置文件更配置命令
 
-3.2 通过.gitignore文件设置不使用git进行版本维护的文件
+配置文件         | 配置命令                 |使用域       |优先级
+------------------------------------------------------------------
+/etc/gitconfig   | $ git config --system    |所有用户     |低
+~/.gitconfig     | $ git config --global    |当前用户     |中
+./.git/.config   | $ git config             |当前项目     |高
+
+* 优先级高的会转换优先级低的设置中的相同项。一般情况下设置~/.gitconfig就可以了。
+
+* 在 Windows 系统上，Git 会找寻用户主目录下的 .gitconfig 文件。Git 还会尝试找寻 /etc/gitconfig 文件，只不过看当初 Git 装在什么目录，就以此作为根目录来定位。
+
+3.2 配置一例
+
+    ① 设置用户名。必须。
+    $ git config --global user.name 'xxxcjr'
+    ② 设置email。必须。不须与github帐户相同。
+    $ git config --global user.email 'xxxcjr@gmail.com'
+    ③ 文本编辑器，默认vim
+    $ git config --global core.editor vim
+    ④ 差异分析工具
+    $ git config --global merge.tool vimdiff
+    ⑤ 设定gitignore模板
+    $ git config --global core.excludesfile ~/.global_ignore
+
+查看已有配置信息：$ git config --list
+
+3.3 通过.gitignore文件设置不使用git进行版本维护的文件
 .gitignore使用标准的shell glob模式匹配，shell glob你可以简单地理解为一种特特殊化的正则表达式，其实要比正则表达式简单许多，语法如下：
     允许使用空行，没有实际语法作用
     # 开头的行视作注释
@@ -70,32 +85,33 @@ git config --global core.excludesfile ~/.global_ignore
 另外，还可以在配置项中通过core.excludesfile来指定ignore文件。
 $ git config core.excludesfile '_myignore'
 
-3.3 git的配置文件
-git配置文件根据作用或的不同分为三种：
-×系统配置文件（git安装目录/gitconfig）
-×用户配置文件（用户主目录/.gitconfig）
-×项目配置文件（.git/config）
-
-git配置项都通过git config命令写入，传入不同的配置文件
-×git config --system 写入系统配置文件
-×git config --global 写入用户配置
-×git config 写入项目配置
-
 4 git的基本操作
 
 4.1 建立git版本库
-# 首先进入到要建立版本库的文件夹
-$ cd ~/work
-# 用git init命令初始化版本库。
-$ git init
 
-4.2 向本地版本库提交文件
-# 查看git版本库的状态（这一步不是必须的，但是个好习惯）
+4.1.1 在当前目录下建立Git仓库
+$ git init
+命令成功运行后会在当前目录下生成.git目录。
+
+4.1.2 从现有仓库克隆
+$ git clone git://github.com/schacon/grit.git
+这会在当前目录下创建一个名为 “grit” 的目录，其中内含一个 .git
+的目录，并从同步后的仓库中拉出所有的数据，取出最新版本的文件拷贝。如果希望设定自己的目录（如mygrit）可使用“$ git clone git://github.com/schacon/grit.git mygrit”命令
+
+
+4.2 查看当前文件的状态
 $ git status
-通过命令可以看到处于git跟踪下的文件具有三种状态：
-    modified 已修改过的文件
-    staged 已通过git add命令添加到暂存区域的文件
-    committed 已通过git commit命令提交过的文件
+
+通过git status命令可以了解到当前所在的分支，文件的状态等信息。
+
+On branch master：当前在master分支
+Untrached files:下面的文件不会被跟踪，可使用git add命令使用它被跟踪
+Changes to be committed:下面文件属已暂存状态，可使用git commit命令进行提交
+                        可使用git reset退回先前版本
+Changed but not updated:下面已跟踪文件已发生变化，但还没有放到暂存区，可使用
+                         git add使用将文件放到暂存区 
+
+
 要更详尽地查看文件变化可使用git diff命令
 # 查看未暂存文件的变化（与最近一次的暂存/提交比较）
 $ git diff
@@ -222,3 +238,12 @@ $ git update-ref refs/heads/test-branch c56dce
 $ git update-ref refs/tags/test-tag c56dce
 执行上述命令，这样你的git版本库中就多了一个test-branch分支和一个名为test-tag的tag。
 其他的比如git还有些底层的命令，我在文中所列举的，包括之前基础篇的都是一些高级命令。可以使用这些底层命名直接对git库进行一些操作，有关git底层命名的详细内容，可以到网上去找找。
+
+
+英文帮助
+On branch master：当前在master分支
+Untrached files:下面的文件不会被跟踪，可使用git add命令使用它被跟踪
+Changes to be committed:下面文件属已暂存状态，可使用git commit命令进行提交
+                        可使用git reset退回先前版本
+Changed but not updated:下面已跟踪文件已发生变化，但还没有放到暂存区，可使用
+                         git add使用将文件放到暂存区 

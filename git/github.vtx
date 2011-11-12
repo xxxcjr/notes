@@ -93,6 +93,8 @@ $ git remote add origin git@github.com:your_name/meelisp.git
 出现“出现fatal: remote origin already exists.”
 $ git remote rm origin
 $ git remote add origin git@github.com:your_name/meelisp.git
+* 为什么样会出现这种错误呢？因为git remote add origin命令的作用是把后面的远程仓库命名为origin。以后不要这么傻了。
+
 $ git push origin master
 
 目前的三个项目

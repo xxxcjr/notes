@@ -1,4 +1,4 @@
-" Last Modified: 2011-11-08 星期二 23:31:05 [Athena]
+" Last Modified: 2011-11-12 星期六 15:11:24 [Athena]
 
 0 安装的要点
 
@@ -645,6 +645,11 @@ alias ipv6 off
     选择 “布局/Layouts” 选项卡并点击“选项/Layout Options” 按钮
     选择 “Key sequence to kill the X server” and enable并激活 “Control + Alt + Backspace”.aa 
 
+3.14 访问windows网络共享
+参考：http://linux-wiki.cn/wiki/访问Windows网络共享
+
+使用Gnome虚拟文件系统。在“位置”菜单中点击“连接到服务器...”菜单，在服务类型中选“Windows共享”，输入服务器（要访问windows共享主机）的IP，点击链接，输入用户名密码。
+
 
 4 tips
 
@@ -702,13 +707,43 @@ $ gpg --keyserver wwwkeys.eu.pgp.net --recv-keys A70DAF536070D3A1 && apt-key add
 
 4.2 查看系统信息
 
-4.2.1 查看当前正在运行的Debian版本
-
+查看当前正在运行的Debian版本
 $ cat /etc/debian_version
 
-4.2.2 显示CPU、硬盘温度、风扇转速 
+查看当前操作系统内核信息
+$ uname -a 
 
+查看当前操作系统发行版信息
+$ cat /etc/issue | grep Linux 
+
+4.3 查看硬件信息 
+
+查看机器型号
+$ dmidecode | grep "Product Name"
+
+显示CPU、硬盘温度、风扇转速 
 $ sensors 
+
+查看CPU型号
+$ cat /proc/cpuinfo |grep "model name" && cat /proc/cpuinfo |grep "physical id"
+或者(显示逻辑CPU数量、型号、主频)：
+$ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c 
+
+查看内存容量
+$ cat /proc/meminfo |grep MemTotal
+
+查看内存信息
+sudo dmidecode -t memory
+显示的信息很多，可以看到最大支持内存(Maximum Capacity)，支持内存类型(Supported Memory Types)，插槽数(Number Of Devices)，已有内存的大小(Size)，型号(Type)，频率(Speed)，最后列出所有的内存设备
+
+查看硬盘大小
+$ sudo fdisk -l|grep Disk
+
+硬盘的具体型号信息
+$ cat /proc/scsi/scsi
+
+查看网卡信息
+# dmesg | grep -i eth
 
 4.3 存放图标文件的目录
 /usr/share/pixmaps
@@ -750,6 +785,13 @@ $ sudo apt-get upgrade
 6.2 查看文件md5
 $ ms5sum 要查看的文件
 
+6.3 下载整个网站
+
+$ wget -r -p -np -k [url]
+· -r：在本机建立服务器端目录结构；
+· -p: 下载显示HTML文件的所有图片；
+· -np：只下载目标站点指定目录及其子目录的内容；
+· -k: 转换非相对链接为相对链接。
 
 7 Debian资源 
 
