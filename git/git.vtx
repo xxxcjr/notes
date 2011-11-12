@@ -1,6 +1,6 @@
 # File Name: /home/xxxcjr/note_for_debian/git基础.vtx
 # Created Time: 2011-10-19 星期三 19:17:59
-# Last Modified: 2011-11-12 星期六 19:21:50 [Athena]
+# Last Modified: 2011-11-12 星期六 21:37:09 [Athena]
 # vim:tw=78
 -------------------------------------------------------
 
@@ -83,6 +83,8 @@ git是一个分布式版本控制系统。
       log/**/* (log本身這個目錄仍會被加入repository)
    6. log/ (log本身這個目錄不會被加入repository)
    7. Git有些特性讓人比較困擾的，特別是空目錄不會被加到repository中，這點在最初設定時就會有些麻煩
+
+Git 還有項比較特立獨行的行為是空目錄是不會 commit 出去的，這在某些專案可能會是問題(例如 Rails 如果少了 log 或 tmp 目錄會不能啟動)，解決辦法是在該目錄下 touch 一個空的檔案，慣例是 .gitkeep。
 
 示例：
     #.gitignore example
@@ -220,6 +222,21 @@ $ git push pro-git master
 $ git remote -d <remote-name>
 重命名远程仓库
 $ git remote rename oldname newname
+
+6 tips
+
+6.1 终端显示git分支
+
+在~/.bashrc下添加：
+function git_branch {
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || return;
+    echo "("${ref#refs/heads/}") ";
+}
+
+找到这一行：
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+添加“$(git_branch)”,成为下面这样：
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(git_branch)\$ '
 
 7 git原理
 究竟git是如何工作的？打开.git目录便可一目了然。
