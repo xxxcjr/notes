@@ -1,4 +1,4 @@
-" Last Modified: 2011-11-12 星期六 15:11:24 [Athena]
+" Last Modified: 2011-11-12 星期六 19:23:45 [Athena]
 
 0 安装的要点
 
@@ -756,7 +756,13 @@ $ cat /proc/scsi/scsi
 /etc/xdg/menus/
 ~/.config/menus/
 
+4.5 通过apt-get编译安装软件
 
+# 下載套件原始程式碼：
+apt-get source <package>
+# 安裝該套件編譯過程必要的東西
+apt-get build-dep <package>
+然後就可以接著用 ./configure 和 make 等步驟開始編譯了，如果沒有特殊意外（如：某些 package 需在 ./configure 的階段設定自有的參數），通常都會無痛編譯成功。
 
 
 
