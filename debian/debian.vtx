@@ -1,4 +1,4 @@
-" Last Modified: 2011-11-12 星期六 19:23:45 [Athena]
+" Last Modified: 2011-11-13 星期日 10:40:13 [Athena]
 
 0 安装的要点
 
@@ -176,7 +176,7 @@ xxxcjr ALL=(ALL) ALL
 
 Debian Testing中文字休美化全攻略 http://edyfox.codecarver.org/html/debian_testing_chinese.html 这篇文章解决了这个问题，但是在我的电脑上好像有的步骤效果不是很明显，所以我这里只记录两步（可以是我的辨识力不强，我只觉得这两步有效果，囧）。
 
-# apt-get install ttf-bitstream-vera
+# apt-get install ttf-bitstream-vera ttf-wqy-microhei xfonts-wqy
 
 复印windows下的SimSun字体到~/.fonts文件夹。
 
