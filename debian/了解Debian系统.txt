@@ -1,0 +1,303 @@
+了解 Debian 系统
+
+一、什么是 GNU/Linux Distribution ( GNU/Linux 套件 ) ？ 
+What is Debian？很多人可能已经照着笔者介绍的步骤安装完基本的 Debian 系统了，但遇到这样问题，在您心里头是否仍存在同样的问号？本篇文章重点虽不在介绍 Debian 的历史，但是有许多 Debian 的基本观念，仍旧会尽可能以最简短的方式让您了解。
+
+我们都知道所谓的 GNU/Linux Distribution ( 常见的有 Redhat 、Mandrake 、SuSE 、Debian ) 是一堆软件及 Linux kernel 所组成的一个大套件，但是因为一般使用者很难了解到完整的 Linux 发展历史，因此现在大多数的人都将 Linux 与 Redhat 、Mandrake 等等商业性发展的 Distrbution 划上等号，也常有人把 X Window System 归纳成 Linux 的一部分，这些观念都很荒谬，但是本文重点并非厘清这些名词的差异，不过希望大家有一些基本而且正确的认知。笔者姑且就分成三大类来解释：
+
+
+Linux kernel 
+操作系统核心，Linux 属于多人多任务系统，这当然有赖 Linux kernel 来实作，除此之外 Linux kernel 还包含了很多硬件的驱动程序，但模块化的设计让 Linux kernel 可以随心所欲的新增或删减模块，由于这样的特性让 Linux 也可以应用于嵌入式系统。
+
+基本的 libc 、utility..etc 
+我们还需要 libc 这个基本的 C 函式库，以 libc 为基础我们可以开发出一些基本的程序来帮助我们运作，这些工具程序如：ls、mv、cp..等等。
+
+当然如果有需要可以再加入其它的函式库。
+
+X Window System 
+由 MIT ( 美国麻省理工学院 ) 所研发的一套 UNIX 上头标准的图形窗口接口，所以 X 发展还比 Linux 早，只是后来有人将它移植到 Linux 上 ( XFree86 )，因此我们是可以把 Linux 与 X Window System 切开来讨论，一般我们熟悉的 MS Windows 操作系统是把 GUI 与 OS Kernel 合在一起的系统，这跟 Linux 与 X 是完全不同的系统架构。千万别搞混啰。
+
+有 X 我们就可以作很多图形相关的应用，例如用 gmc ( gnome 的图形接口档案管理软件，如附图 gmc ) 取代 mc ( 类似过去 DOS 底下的 Nortan Comand )，有 X 让我们对计算机的视觉感受更强烈，想要看有图案的网页也是必须在 X 底下开启 mozilla ( 或其它支持图形的 Browser )，所以有 X 的图形接口环境让我们的计算机更有亲和力、更美丽。
+
+
+当然很多情况是使用指令效率大于使用图形接口的软件，笔者自首，其实我也不用类似刚刚提到的 gmc 图形接口档案总管；即使进入 X 底下，我一定还是会开启一个 X Terminal ( 可能是 crxvt或是Eterm )，然后享受着飞快敲打指令的乐趣。但是遇到浏览网页或收发电子邮件我则会借助 Mozilla ，因为这浏览网页与看电子邮件有图形辅助还是比较令人赏心悦目。计算机是死的，人脑是活的，所以请记住是人去用计算机而不是计算机奴役人，因此我们要活用计算机。
+
+上面所述的前两大项就可以完成一个基本的 Linux Distribution，X 则是又是另外一项大的 GUI ( Graphic User Interface ) 课题。如果您只是把 Debian 拿来当作提供某项网络服务的服务器，其实压根就不需要安装 X Window System ，但是如果您想象笔者一样把他拿来当作自己的 Desktop ，那就非常需要有 X ，没有 X 就失色很多。
+
+而以 Debian 来说，当然含盖了上述三大部份，与一般商业发行的 Linux Distribution 包山包海作法不同的是 Debian 习惯从最基本的系统开始，需要甚么软件再堆栈上去，或许您会反驳 Redhat、 Mandrake 也可以做到与 Debian 一样从安装基本系统开始，笔者绝对同意，只是笔者认为使用 Debian 可以很轻松达成这样的目的。如果您是重头开始阅读本文，而且跟着笔者的步骤安装了 Debian ，您应该很清楚 Debian 先天设计的哲学便是如此。
+
+原则上 Debian 就如同其它商业公司发行的 Linux Distribution 一样，由 Linux 核心再加上一堆软件组合而成的 Linux Distribution. 但是很特别的是 Debian 是非营利组织，但是组织架构严谨，有一套完善的软件管理方式，贡献者来自全世界各地，我是认为最起码这样的组织比较不会有像公司的营运压力，另外也较能广纳各方意见，所以即使经济在不景气也不会有倒闭的风险。
+
+在 Debian 组织内部很套很特别的 Distribution 等级制度，分别为 stable 、 testing 、 unstable，光从字面上就可以看出一些端倪，stable 是最稳定的版本，unstable 则为开发中的版本。很多人都误以为只有像 Redhat 、 Mandrake 这样的 Linux Distribution 所包出来的软件最多，而 Debian 一定没有那么多的软件，这当然是错误的观念，目前 Debian 已经有超过 3950 个软件啰，而且还会陆续增加，因为 Debian 并非商业公司，所以人员并不会受到公司盛衰影响。
+
+我们都习惯称 Redhat 、 Mandrake ..等等为 『 Linux Distribution 』，事实上这观念是错误而且有偏颇之处，这些 Distribution 讲穿了只是用了 Linux 为系统核心，但是辅以更多跟 Linux 核心无关的软件，例如： glibc、X Window System..etc。其中以 GNU 的软件最为重要，因为 GNU 的自由软件包含了最底层的 C 函式库 ( glibc )、编译器 ( gcc )..等等，因此光靠 Linux kernel 是无法完成一个完备的系统，所以 『 GNU/Linux 』 才是正确的称呼。
+
+三、以水平的观点来看 Debian 特有的三大族群制度：stable、testing、unstable 
+
+stable 
+由 『 stable 』 这名词就可以猜到八九分意思了吧，是的!这是 Debian 对外发行的版本，这个版本的最大特色就是稳定，但相对的各个软件套件则通常不是最新版。
+
+这个版本适用在最需要稳定的 Server 架设环境，所安装软件较少也较为固定。
+
+testing 
+『 testing 』 虽名为测试版，实则已经相当接近于 『 stable 』 版本的程度，这个版本的软件多半是在 『 unstable 』 中经由维护、开发人员不断的测试之后流入，所以在某种程度来说，其实已经做过初步的检测，这里头的软件大多也是相当稳定的，而且个软件套件也都会比 『 stable 』 里头的新，不过以软件总量来说则比上 『 stable 』 及 『 unstable 』 中来的完整、来的多。
+
+笔者强烈建议如果想把 Debian 拿来当作 Desktop 平台，『 testing 』 是个很不错的选择。
+
+unstable 
+『 unstable 』对我来说才算是 『 测试版 』，这里头最大的特色就是软件更新速度快，几乎都与该软件同步，因为太新相对的使用 『 unstable 』 的人也必须承担更高的风险，有时候您可能会遭遇到一早更新完所有软件后，发现有些软件不能正常运作的状况，不过庆幸的是这种情形大概只会持续一两天左右，因为我说过 『 unstable 』 的特色就是更新速度快，一旦有人回报问题，维护的人很快就会作修正。 
+
+如果你喜欢 『 玩 』 软件，如果你不在乎有时候系统有出现一些 truobles，那赶快试试这个版本吧!
+
+
+三、以垂直的观点来看 Debian 软件的分布：main、contrib、non-free、non-us 
+Debian distribution 是一个很注重 『 纯 』 度的 Linux Distribution ，我说纯是 Free 的纯度很高，『 Free 』 这个英文字很有趣，但代表了自由、免费两种含意，正因为如此常常造成初学者的困扰，国内很多相关书籍都各自出现不同的解释，不过所谓 『 Free Software 』 原意应为 『 自由软件 』，而非 『 免费软件 』，何谓自由？就是你可以对该软件做任何你想做的事情，例如：你可以使用、修改..甚至贩卖它。这些都是自由软件的特色之一，但是自由软件是不是就没有版权了呢？其实不然，它们或多或少都会宣告成几种特殊的版权发行，最常见的有下列三种：
+
+
+GNU General Public License (GPL) - ( http://www.gnu.org/copyleft/gpl.html ) 
+Artistic License ( http://language.perl.com/misc/Artistic.html ) 
+BSD style license ( http://www.debian.org/misc/bsd.license) 
+
+其中以 GPL 运用最广， BSD License 最有*性，版权问题并不在本篇文章的讨论之列，法律也不是笔者的专长，有兴趣的朋友请直接前往相关网址研究。
+
+由于 Debian 对 『 Free 』 纯度的坚持，但是有时候有些软件虽然不为自由软件，但却相当的著名，例如： Mozilla ，这样的情况让 Debian 陷入两难，于是 Debian 对于旗下所有软件套件 ( Packages ) 进行分类，底下就是 Debian Packages 的主要分类项目： 
+
+
+main 
+Debian distribution 最基本及主要且符合自由软件规范的软件 ( packages )。
+
+contrib 
+这里头软件虽然可以在 Debian 里头运作，即使本身属于自由软件但多半却是相依于非自由 ( non-free ) 软件。
+
+non-free 
+不属于自由软件范畴的软件。
+
+non-us 
+这个分类里头的软件都来自非美国地区，当中可能有牵扯到专利、加密..等等问题。
+
+四、区别版本的『 sources.list 』及两个基本的软件安装指令：tasksel、apt-get 
+透过上一节的说明，相信您对 Debian 的分级制度已经有了初步的认识，整体的轮廓也逐渐的明显，不过以现实中实际使用的状况而言，每种版本并非是泾渭分明的。
+
+『 头上冒出了几个问号了吗？ 』，简单的说，就算我是使用 『 testing 』 版本的人，我还是可以使用 『 stable 』 或 『 unstable 』 中的软件，这并不是假设，举个例子，目前仅 『 unstable 』 中提供最新的 Mozilla 软件，如果您是使用 『 stable 』 或 『 testing 』 的人仍旧是可以安装 『 unstable 』 中的最新版 Mozilla ，怎么做到呢？阅读完 『 由修改 『 sources.list 』 来决定软件来源版本 』 这一小节，您就会清楚了。
+
+尽管如此，笔者并不建议同时大量使用不同层级的软件，因为很多软件之间都有不同程度的相依性，强行的结果会造成更多软件相依、相斥问题的产生，最终可能影响系统稳定与整个软件升级制度的正常运作。
+
+笔者个人使用的是 『 testing 』 版本，但由于一些个别软件如 Mozilla 、 Gimp 等等因素，免不了还是会使用到部份的 『 unstable 』 软件，使用至今也无大的 Troubles 出现，我的建议是越接近系统底层的软件如：glibc、xfree86，越是要小心谨慎，因为这些软件多半牵连广泛，一个不留神系统可能得重新再造啰!
+
+由修改 『 sources.list 』 来决定软件来源版本 
+如何决定安装的软件属于何种层级？方法相当容易，所有的信息都记载在 『 /etc/apt/sources.list 』 这个文字文件之中。 
+
+sources.list 档案里头的设定格式十分单纯，如下：
+
+deb uri distribution [component1] [componenent2] [...]
+
+底下就各个选项作细部说明：
+
+
+deb 
+这一栏只有两种写法，分别为 『 deb 』 与 『 deb-src 』，前者表示所指向的为存放 binary 格式 ( 编译好执行文件的软件套件 ) 软件套件的服务器位置，后者则为 sources 格式 ( 包含原始码的软件套件 ) 软件套件的服务器位置。
+
+简言之，一般我们只想要安装该软件而不想要去重新编译它时，就在这一栏填入 『 deb 』 ， 如果你想取得某软件的原始码 ( sources code ) ，就得加入 『 deb-src 』 ， 当然也可以两行都写，如下：
+
+deb http://http.us.debian.org/debian stable main contrib non-free
+
+deb-src http://http.us.debian.org/debian stable main contrib non-free
+
+uri ( Universal Resource Identifier ) 
+uri 指的就是软件套件来源位置，这些位置可以为系统内的某个位置 ( file ) 、可以为 CD-ROM ( cdrom ) 、可以为网络远程位置 ( http 、 ftp )..等等，当你下 apt-get 指令时，就会到这些位置去搜寻软件数据库。总括来说一共有 file 、 cdrom 、 http 、 ftp 、copy 、rsh 、ssh 等几个参数，而比较常用的参数如下列：
+
+
+file 
+可以是你系统上的某个目录，如下：
+
+deb file:/home/moto/debian stable main contrib non-free
+
+也可以是你 mount 到自己系统里头的远程 NFS Server，如下：
+
+deb file:/mnt/nfs-server stable main contrib non-free
+
+cdrom 
+这里当然就是指光驱上光盘片里的位置啰，例如：
+
+deb cdrom:/dists stable main contrib non-free
+
+http 
+透过 http 的协议传送，例如：
+
+deb http://http.us.debian.org/debian stable main contrib non-free
+
+ftp 透过 ftp 的协议传送，例如： 
+deb ftp://ftp.us.debian.org/debian stable main contrib non-free
+
+
+值得一提的是透过这样的机制是非常有*性的，来源位置几乎可以是网络上的任何一个角落，不见得是要 Debian Office 站台，个人制作的 .deb 软件套件也可以开放给网络上的人使用，例如目前的 Debian 官方『 stable 』版本里头的 Linux kernel 不是最新版的，而 bunk 网友自己帮忙做了最新版本的 kernel for debian package，并提供了 『 deb http://people.debian.org/ bunk/debian potato main 』 这个私人的位置，则我们可以把这个位置加入 『 /etc/apt/sources.list 』 设定档里头，再透过 『 apt-get update 』 就可以取得 bunk 所制作的 for debian 的 kernel package ( 目前在 testing 里头已经有最新的 kernel 了，所以不需要在透过其它的来源来安装 )。更详细的 kernel 升级方法请参考 Debian 升级 kernel 真轻松 一节。
+
+这样的分享机制很棒 ! 因为 Debian 官方对于软件筛选有一定的规定，如果某个软件进不了 Debian 的 package tree ，但我们又不想由 Source tallball 安装， 我们便可以透过这样的管道让我们仍旧可以使用 Debian 良好的软件管理机制而且可以安心使用额外软件。
+
+distribution 
+参数可分为 『 stable 』 、『 testing 』 、『 unstable 』，详细定义请参考 以水平的观点来看 Debian 特有的三大族群制度：stable、testing、unstable 一节。
+
+component 参数共分为 『 main 』、『 contrib 』、『 non-US 』、『 non-free 』 详细定义，请参考 以垂直的观点来看 Debian 软件的分布：main、contrib、non-free、non-us 一节。 
+
+了解 『 sources.list 』 的撰写规范之后，我们便可以经由修改此档达成转换不同版本的需求，例如在 『 stable 』 版本底下，我们把 『 sources.list 』 内容记载的软件服务器改为指向 『 unstable 』 ， 如下： 
+
+# See sources.list(5) for more information, especialy
+# Remember that you can only use http, ftp or file URIs
+# CDROMs are managed through the apt-cdrom tool.
+#deb http://http.us.debian.org/debian stable main contrib non-free
+#deb http://non-us.debian.org/debian-non-US stable/non-US main contrib non-free
+#deb http://security.debian.org stable/updates main contrib non-free
+
+
+# Uncomment if you want the apt-get source function to work
+#deb-src http://http.us.debian.org/debian stable main contrib non-free
+#deb-src http://non-us.debian.org/debian-non-US stable non-US
+
+deb http://http.us.debian.org/debian/ stable main non-free contrib
+deb-src http://http.us.debian.org/debian/ stable main non-free contrib
+deb http://non-us.debian.org/debian-non-US stable/non-US main contrib non-free
+deb-src http://non-us.debian.org/debian-non-US stable/non-US main contrib non-free
+
+
+改为： 
+# See sources.list(5) for more information, especialy
+# Remember that you can only use http, ftp or file URIs
+# CDROMs are managed through the apt-cdrom tool.
+#deb http://http.us.debian.org/debian stable main contrib non-free
+#deb http://non-us.debian.org/debian-non-US stable/non-US main contrib non-free
+#deb http://security.debian.org stable/updates main contrib non-free
+
+# Uncomment if you want the apt-get source function to work
+#deb-src http://http.us.debian.org/debian stable main contrib non-free
+#deb-src http://non-us.debian.org/debian-non-US stable non-US
+
+deb http://http.us.debian.org/debian/ unstable main non-free contrib
+deb-src http://http.us.debian.org/debian/ unstable main non-free contrib
+deb http://non-us.debian.org/debian-non-US unstable/non-US main contrib non-free
+deb-src http://non-us.debian.org/debian-non-US unstable/non-US main contrib non-free
+
+
+
+如此一来即使身处在 Debian 『 stable 』 的环境底下，也能透过 『 apt-get 指令 』 去安装 Debian 『 unstable 』 中的软件。
+
+关于 『 sources.list 』 一些注意事项 
+尽管藉由 『 sources.list 』 就能让我们同时取得不同版本的软件，但是有一点必须特别提醒大家，依照笔者的习惯，除了原先第一次安装时的 『 sources.list 』档案之外，我还会将这个档案分别修改成指向 『 testing 』 的 『 sources.list.testing 』以及指向 『 unstable 』 的 『 sources.list.unstable 』，如需安装其它版本的 Debian 只需置换原来的 『 sources.list 』 再配合 『 apt-get 』 指令即可。
+
+如果您坚持只维护一个 『 sources.list 』 档也是可以的，但请记住一个原则，如果您的 『 sources.list 』 中同时包含了 『 stable 』、『 testing 』、『 unstable 』 三种来源时，系统会以最新版本为主，换言之，这么做几乎就等于设定为 『 unstable 』 了，因为软件版本的新旧为 『 unstable 』 新于 『 testing 』 新于 『 stable 』。
+
+照这么说根本就不需要混和使用，因为系统总是会认最新的嘛，其实会这么做的同常以使用 『 testing 』 版本的人最常见，这是由于 『 testing 』 里头软件是三种版本之中最少的，所以有时候会找不到 Debian 里头 『 应该 』 有的软件，这种情况笔者就会建议， 『 stable 』 与 『 testing 』 混用，如此一来如果您要安装的软件不在 『 testing 』 里头，系统还可以到 『 stable 』 里头去搜寻，如果还是找不着那可以肯定 Debian 没有纳入该软件 。
+
+如果您决定跟笔者一样使用 『 testing 』 版本的话，请切记不要同时把 『 unstable 』 的服务器来源加进你的 『 sources.list 』，因为一旦更新完毕，您的系统也已经变成 『 unstable 』 版本了，切记!切记!
+
+底下是笔者的 『 testing sources.list 』： 
+
+# See sources.list(5) for more information, especialy
+# Remember that you can only use http, ftp or file URIs
+# CDROMs are managed through the apt-cdrom tool.
+
+deb http://http.us.debian.org/debian testing main contrib non-free
+deb http://non-us.debian.org/debian-non-US testing/non-US main contrib non-free
+
+deb-src http://http.us.debian.org/debian testing main contrib non-free
+deb-src http://non-us.debian.org/debian-non-US testing/non-US main contrib non-free
+
+#for gnome
+
+#deb http://spidermonkey.ximian.com/distributions/debian unstable main 
+#deb http://red-carpet.ximian.com/debian testing main
+
+
+
+台湾 debian mirror site 列表 
+我知道每个朋友网络品质不尽相同，以笔者为例连接美国速度还不错，但是一定有更多朋友连连上美国都有困难，没关系，别气馁，您可以试试底下的台湾 Mirror 站台：
+
+
+淡江 
+deb http://ftp.tku.edu.tw/OS/Linux/distributions/debian/ testing main non-free contrib
+
+deb http://ftp.tku.edu.tw/OS/Linux/distributions/debian/non-US testing/non-US main non-free contrib 
+
+
+debian 台湾 
+deb http://debian.linux.org.tw/debian woody main non-free contrib
+deb http://debian.linux.org.tw/debian-non-US woody/non-US main non-free contrib 
+
+
+中山 
+deb ftp://ftp.nsysu.edu.tw/Linux/Debian/ testing main contrib non-free
+deb ftp://ftp.nsysu.edu.tw/Linux/Debian/debian-non-US testing/non-US main contrib non-free
+
+
+
+apt-get 指令操作 
+我常跟朋友戏称" 要学 Debian 只要学会 apt-get 这个指令就行了 "，当然这是玩笑话，也绝对不可能如此单纯，不过我会这么说是因为等到您的 Debian 系统完全安装完毕之后，您就会像我一样退化到每天就只会下 『 apt-get update;apt-get upgrade 』 指令了。 :-)
+
+在 Debian 里面，关于软件的安装、移除、升级完全靠 dpkg 这个指令来完成 ( 关于 dpkg 更详细的介绍，请参考 dpkg 一节 )，dpkg 指令功能很强大，但却相对的复杂了许多，也造成使用上的不便，因此目前衍生出许多 dpkg 的前端 ( front end ) 软件管理程序 ( 请参考 众多的 dpkg 前端软件管理程序 一节 ) ，帮助我们简化软件管理的步骤，而 『 apt-get 』 是我最为熟悉也是最受 Debian 使用者喜爱的一套指令式程序。现在也经有人将『 apt-get 』 移植到其它的 GNU/Linux Distribution ( 注一 )。
+
+或许您被上一节 " 区别版本的『 sources.list 』及两个基本的软件安装指令：tasksel、apt-get" 的『 sources.list 』搞的头晕脑胀，不过笔者相信等您了解本节介绍的 『 apt-get 』 指令之后，必然有『 豁然开朗 』、『 茅塞顿开 』 之感。
+
+『 apt-get 』指令操作非常简单，底下列出比较常用的选项及参数，要得到最完整的信息请 『 man apt-get 』。 
+
+注意!!执行 『 apt-get 』 指令时需以 『 root 』 身份执行 ! 
+
+
+apt-get update 
+
+软件数据库同步： 
+这是『 apt-get 』指令的起点，在下达任何 『 apt-get 』 相关软件安装或升级指令前，一定得先下『 apt-get update 』指令，这会让系统依照 『 sources.list 』 设定文件内纪录的软件来源服务器位置，进行软件数据库比对动作，如此才能知道目前系统上安装的软件跟服务器上可抓取的软件版本是否一致，如不一致表示有更新版的软件可以升级或安装，接下来的 『 apt-get install 、 apt-get upgrade 、 apt-get dist-upgrade..』才能完成后续动作。
+apt-get install 
+
+软件安装： 
+安装软件最怕的就是软件间的相依、相斥关系，在 『 前言 』 里头笔者也提到过去使用的其它 GNU/Linux Distribution 的恼人经验，但是在 Debian 里头安装软件是一件非常愉悦的事情，只要 『 apt-get install 』一行指令简简单单轻轻松松即可完成，所有相依、相斥 Debian 都会帮我们 take care ，您要做的就是 『 Say Yes 』。
+
+apt-get remove 
+
+软件移除： 
+与 install 一样，Debian 一样会帮您处理移除软件时所发生的相依问题。
+
+apt-get upgrade 
+
+软件升级： 
+平常我们很难顾虑到系统上所安装的数十甚至数百套软件的版本是否有新版出现，现在只要下这个指令 Debian 便会自动找出所有有新版的软件套件并逐一升级。
+
+范例： 
+底下是笔者执行完 『 apt-get upgrade 』 系统报告搜查情况，并询问是否同意升级的画面：
+apt-get dist-upgrade 
+
+系统升级： 
+当转移整个系统时，如 『 stable 』 转换到 『 testing 』，或是系统运行好一段时间都应该下这个指令，它会聪明的处理到很多软件相依、相斥的问题。
+
+dist-upgrade 
+
+
+apt-get source 
+
+如果您想取得某个软件套件 ( packages ) 的原始码可以透过这个指令达成。
+
+apt-get clean 
+我们透过 apt-get 安装的任何软件都会先下载到 『 /var/cache/apt/archives/ 』及 『 /var/cache/apt/archive/partial/ 』 目录底下，一般预设 apt-get 在安装完软件后是不会把上述位置底下的 『 .deb 』 杀除，一段时间后您如果觉得系统空间不足，您可以下 『 apt-get clean 』让系统自动清理这个目录。
+
+apt-get autoclean 
+类似 『 apt-get clean 』，下此参数时 apt-get 在安装完毕后会自动删除该软件的 『 .deb 』 檔。
+
+apt-get check 
+apt-get 不是万能，有时候也是会出现问题，如附图 broken，遇到有问题的时候您可以下 『 apt-get check 』来诊断问题所在。
+
+apt-get remove --purge `deborphan` ( 清除系统多余的 library ) 
+
+当您使用 debian 一段时间后，如果您经常安装、移除软件一定会出现残余 library 在系统的状况，原因是当您安装软件时， debian 依照软件相依特性安装了额外的 library，但是当您移除该软件时，当初连带安装的 library 不见得会一起被移除，久而久之系统就会出现残余的 library，这个时候您便可以下这行指令，为您扫除系统中无用的 library ，确保系统的清洁性。
+
+其它常用辅助选项： 
+
+-f ( --fix-broken ) 
+假如无法安装，请试着下"-f"参数。
+
+-d ( --download-only ) 
+只下载 『 .deb 』 而不安装，下载的档案会存放在 『 /var/cache/apt/archives/ 』底下。
+
+例子：『 apt-get -d install aterm 』。
+
+--purge 
+这个参数会帮助您移除跟您想要移除软件的相关软件。
+
+例子：『 apt-get --purge remove aterm 』。
