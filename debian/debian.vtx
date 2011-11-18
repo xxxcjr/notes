@@ -1,4 +1,4 @@
-" Last Modified: 2011-11-13 星期日 10:40:13 [Athena]
+" Last Modified: 2011-11-18 星期五 20:11:30 [Athena]
 
 0 安装的要点
 
@@ -224,8 +224,23 @@ deb http://mirrors.163.com/debian sid main non-free contrib
 
 $ apt-get install mplayer smplayer
 
-安装完成后可以播放视频，但是非常卡，一般可以安装ffmepg，但我使用的是另一种方法。
-下载mplayer for windows版，解压并到其中的codecs文件夹移动到/usr/lib/codecs。
+一般这样安装后对大部分视频就都可以播放了，但有些怪异的wmv视频无法播放，可以使用下面的方法把mplayer打造成万能播放器。
+
+① 到这里http://www1.mplayerhq.hu/MPlayer/releases/codecs/下载解码器
+我下载了：
+ all-20110131.tar.bz2  http://www1.mplayerhq.hu/MPlayer/releases/codecs/all-20110131.tar.bz2
+ windows-all-20071007.zip http://www1.mplayerhq.hu/MPlayer/releases/codecs/windows-all-20071007.zip
+ windows-essential-20071007.zip http://www1.mplayerhq.hu/MPlayer/releases/codecs/windows-essential-20071007.zip
+
+② 解压all-20110131.tar.bz2到/usr/local/lib/codecs，codecs文件夹要自己创建。
+
+③ 解压windows-all-20071007.zip、windows-essential-20071007.zip到/usr/local/lib/win32，win32文件夹要自己创建。
+
+* 事实上我是把codecs、win32创建在~/.mplayer/下，再链接到相应目录。
+
+* 据说，debian的发行中有这么一个档案。
+/usr/share/mplayer/scripts/binary_codecs.sh
+执行后自动下载解码器安装。
 
 编辑~/.mplayer/config，对mplayer进行基本的设置，下面是我的config文件：
 # Write your default config options here!
@@ -650,6 +665,12 @@ alias ipv6 off
 
 使用Gnome虚拟文件系统。在“位置”菜单中点击“连接到服务器...”菜单，在服务类型中选“Windows共享”，输入服务器（要访问windows共享主机）的IP，点击链接，输入用户名密码。
 
+3.15 添加右键菜单
+
+完美的添加方法目前未找到，不完美的方法是：
+
+以要新添加的项（如“刷新”）命名文本文件存放到~/.gnome2/nautilus-scripts/目录下，使用chmod命令给予其运行权限，即可在右键菜单中的“脚本”子目录下找到“刷新”。
+
 
 4 tips
 
@@ -764,7 +785,9 @@ apt-get source <package>
 apt-get build-dep <package>
 然後就可以接著用 ./configure 和 make 等步驟開始編譯了，如果沒有特殊意外（如：某些 package 需在 ./configure 的階段設定自有的參數），通常都會無痛編譯成功。
 
+4.6 查看apt-get安装后的软件位置
 
+$ dpkg -L softname
 
 ++++++++++++++++++++++++++++++++++++++++
 
