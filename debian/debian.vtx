@@ -1,4 +1,4 @@
-" Last Modified: 2011-11-18 星期五 20:11:30 [Athena]
+" Last Modified: 2011-11-20 星期日 11:37:08 [Athena]
 
 0 安装的要点
 
@@ -793,6 +793,34 @@ $ dpkg -L softname
 
 5 待实践
 
+5.1 解决使用swap文件无法休眠的问题(未成功)
+
+# 找出swap分区的UUID
+sudo blkid
+
+# 更改fstab中swap分区的UUID
+sudo gedit /etc/fstab
+
+# 更改休眠恢复分区UUID
+sudo gedit /etc/initramfs-tools/conf.d/resume
+添加内容“ESUME=UUID=22d42b7b-6e68-45cb-ae28-2885572cac3e”
+
+# 将image_size复制到桌面以便修改
+编辑文件/sys/power/image_size
+设置休眠空间的大小，添加内容 “524288000”
+
+# 更新initrd
+sudo update-initramfs -u
+
+失败状况：
+点击休眠后，黑屏，屏幕提示“swap header not found”，之后重新回到桌面。休眠失败。
+
+失败总结：
+① 有的文章说虚拟内存大于内存，这个我不太信。
+② 有的文章(http://hi.baidu.com/red_woods/blog/item/721676123f5ced56f819b8d5.html?)提示说要编辑/etc/uswsusp.conf文件，添加内存文件在文件系统中的偏移量。在使用“swap-offset ”的时候失败，打不到这条命令。
+这种方法应该是要安装uswsusp的(参看此文http://forum.ubuntu.org.cn/viewtopic.php?t=254238)，没有安装也没有实践。
+
+
 * 定制中文的终端
     安装fbterm
     小小输入法
@@ -827,6 +855,7 @@ $ wget -r -p -np -k [url]
 7.1. 163的安装镜像
 http://mirrors.163.com/debian/dists/Debian6.0.2/main/installer-i386/current/images/
 （其中hd-media是硬盘安装）
+ Debian 无痛起步法：http://people.debian.org.tw/~moto/
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
 
 
