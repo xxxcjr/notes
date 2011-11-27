@@ -1,12 +1,12 @@
-" Last Modified: 2011-11-20 星期日 11:37:08 [Athena]
+" Last Modified: 2011-11-27 星期日 14:55:46 [Athena]
 
 0 安装的要点
 
 使用网络安装，光盘下载：http://www.debian.org/distrib/netinst。
 
-网络安装光盘镜像中的vmlinuz、initrd.gz无法搜索加载硬盘上的iso镜像，所以这两个文件要从网上下载，我下载到的这两个文件也无法搜索加载NTFS文件系统中的iso文件，所以debian-6.0.1a-i386-netinst.iso要放在ext3或fat32格式的分区上。
+网络安装光盘镜像中的vmlinuz、initrd.gz无法搜索加载硬盘上的iso镜像，所以这两个文件要从网上下载http://mirrors.163.com/debian/dists/Debian6.0.3/main/installer-i386/20110106+squeeze3+b1/images/hd-media/（其它版本的Debian可以参考网址在上级网络中找到），我下载到的这两个文件也无法搜索加载NTFS文件系统中的iso文件，所以debian-6.0.1a-i386-netinst.iso要放在ext3或fat32格式的分区上。
 
-可以找到无线网卡，但好像无法正常使用，所以要准备好网线。
+安装时不要启用网络，installer就不会在线搜索更新，安装过程会快很多。当然这看个人爱好，我就是在线更新的。
 
 因为是笔记本，所以选择软件包时把笔记本的选项也选上。
 
@@ -271,6 +271,18 @@ osdlevel = "3"
 
 打开smplayer的首选项，常规，音频，在输出视频中选择"alsa"，声音就出来了。选择“字幕”，字幕编码可选择“繁体中文”或“简体中文”，当选择正确时字幕就能正常显示。
 
+2.2.2 mplayer tips
+
+① 从视频文件提取音频：
+mplayer -ao pcm:file=./output.wav  -vo null -vc none file
+
+通过这个命令可以把视频文件中的音频文件提取出来，输出为当前目录下output.wav文件。如果视频文件有多条声轨，您可以使用参数 -aid {Number} 指定需要提取的声轨。
+
+② 
+
+2.2.3 mplayer中文手册下载
+http://www.deleak.com/blog/wp-content/uploads/2010/06/mplayer.ps.tar
+
 2.3 安装加密软件truecrypt
 
 下载地址：http://www.truecrypt.org/downloads
@@ -493,6 +505,23 @@ $ apt-get install debian-reference-zh-cn
 
 2.21 安装ipython
 $ sudo apt-get install ipython
+
+2.22 安装纯文本阅读器FBReader
+
+$ sudo apt-get install fbreader
+
+① 打开 fbreader 菜单-preferences
+② 在 language 选项卡里 default language 选 chinese，default encoding set 选unicode，default encoding 选 utf-8
+③ 到 style 选项卡里的 family 选你喜欢的电脑里面已经安装的中文字体
+④ 点击ok保存设置
+⑤ 用空格键来翻到下一页
+编辑/usr/share/FBReader/default/keymap.xml，加上：
+<binding key="&lt;Space&gt;" action="largeScrollForward"/>
+这里要特别注意大小写，写错了就无效的
+更多设置见这里：readbook的替代品,fbreader http://bluedeep.muxingchina.com/post/40/
+⑥ 汉化 
+文件下载：http://bluedeep.muxingchina.com/attachment.php?fid=77
+解压后,把zh.xml文件复制到/usr/share/FBReader/resources/下
 
 3 各种小折腾
 
@@ -849,6 +878,29 @@ $ wget -r -p -np -k [url]
 · -p: 下载显示HTML文件的所有图片；
 · -np：只下载目标站点指定目录及其子目录的内容；
 · -k: 转换非相对链接为相对链接。
+
+6.4 开启/禁用触摸板
+
+$ synclient touchpadoff=0 启用
+$ synclient touchpadoff=1 禁用
+
+我现在是这样搞，写个脚本放在/usr/local/bin:
+s=`synclient -l | grep TouchpadOff | awk '{print substr($0,length($0),1)}'`
+#echo $s
+#exit
+
+if [ $s -eq 1 ]
+then
+#echo "touchpad is disabled, now I will enable it"
+`synclient touchpadoff=0`
+else
+#echo "touchpad is enabled, now I will disable it"
+`synclient touchpadoff=1`
+fi
+然后加个菜单项到主菜单那里。
+主要不爽的是Fn+F9识别不出来，按了没有任何反应。我只好把这个脚本捆绑到Ctrl+F9了。
+
+这个是内核的问题了, 我也过有这样的情况, 似乎是2.6.32, 很多fn键都没识别出来, 后来自己编译新内核就行了
 
 7 Debian资源 
 
